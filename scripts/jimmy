@@ -1,0 +1,58 @@
+#!/usr/bin/python
+
+import argparse
+import logging
+import os
+
+from injector import Injector
+
+import slippinj.di
+from slippinj.cli.scripts.anabasii import Anabasii
+from slippinj.cli.scripts.cooper import Cooper
+from slippinj.cli.scripts.hersir import Hersir
+from slippinj.cli.scripts.scribe import Scribe
+from slippinj.cli.scripts.tlacuilo import Tlacuilo
+from slippinj.cli.scripts.valet import Valet
+
+parser = argparse.ArgumentParser(prog=os.path.basename(__file__),
+                                 description='To use the script you should configure a set of variables in your home ~/.slippinj to each environment, you can add a default section in order to use these variables for all environments. In case you haven\'t configured the file the script will ask you to do it.')
+
+parser.add_argument('-p', '--pem-dir',
+                    help='Provide the folder where your pem files are stored in order to connect to the cluster using a key file, by default ~/.ssh folder will be used',
+                    default=False)
+parser.add_argument('-a', '--aws-profile',
+                    help='AWS Profile to use when running the script, remember to configure it inside your ~/.aws/credentials file',
+                    default='default')
+parser.add_argument('-v', '--verbosity', action='store_true',
+                    help='Verbose output')
+
+subparser = parser.add_subparsers(dest='script')
+
+scribe = Scribe(subparser).configure()
+valet = Valet(subparser).configure()
+tlacuilo = Tlacuilo(subparser).configure()
+anabasii = Anabasii(subparser).configure()
+cooper = Cooper(subparser).configure()
+hersir = Hersir(subparser).configure()
+
+args = parser.parse_args()
+
+injector = Injector([
+    slippinj.di.DIModule(args=args),
+    slippinj.di.AwsClientModule(profile=args.aws_profile),
+    slippinj.di.DatabaseDriversModule(),
+    slippinj.di.TablesConfigurationModule(),
+])
+
+injector.get('logger').setLevel(logging.DEBUG if args.verbosity else logging.INFO)
+
+try:
+    eval(args.script).run(args, injector)
+except KeyboardInterrupt:
+    parser.exit(0)
+except Exception as e:
+    if args.verbosity:
+        injector.get('logger').exception(e)
+    else:
+        injector.get('logger').error(str(e))
+    parser.exit(1)
