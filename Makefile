@@ -27,6 +27,6 @@ clean:
 	rm -rf $(BUILDDIR)/*
 
 publish:
-    python setup.py sdist
-    twine register dist/*
-    twine upload dist/*
+	python setup.py sdist
+	twine register dist/*
+	twine upload dist/*
