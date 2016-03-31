@@ -1,0 +1,187 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>slippinj.cli.scripts.tables_configuration package &mdash; Slippin Jimmy 1.1.2 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.1.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Slippin Jimmy 1.1.2 documentation" href="slippinj.html" />
+    <link rel="up" title="slippinj.cli.scripts package" href="slippinj.cli.scripts.html" />
+    <link rel="next" title="slippinj.databases package" href="slippinj.databases.html" />
+    <link rel="prev" title="slippinj.cli.scripts package" href="slippinj.cli.scripts.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="slippinj-cli-scripts-tables-configuration-package">
+<h1>slippinj.cli.scripts.tables_configuration package<a class="headerlink" href="#slippinj-cli-scripts-tables-configuration-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-slippinj.cli.scripts.tables_configuration.group_tables_configuration">
+<span id="slippinj-cli-scripts-tables-configuration-group-tables-configuration-module"></span><h2>slippinj.cli.scripts.tables_configuration.group_tables_configuration module<a class="headerlink" href="#module-slippinj.cli.scripts.tables_configuration.group_tables_configuration" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="slippinj.cli.scripts.tables_configuration.group_tables_configuration.GroupTablesConfiguration">
+<em class="property">class </em><code class="descclassname">slippinj.cli.scripts.tables_configuration.group_tables_configuration.</code><code class="descname">GroupTablesConfiguration</code><a class="reference internal" href="_modules/slippinj/cli/scripts/tables_configuration/group_tables_configuration.html#GroupTablesConfiguration"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#slippinj.cli.scripts.tables_configuration.group_tables_configuration.GroupTablesConfiguration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-slippinj.cli.scripts.tables_configuration.incremental_table_configuration">
+<span id="slippinj-cli-scripts-tables-configuration-incremental-table-configuration-module"></span><h2>slippinj.cli.scripts.tables_configuration.incremental_table_configuration module<a class="headerlink" href="#module-slippinj.cli.scripts.tables_configuration.incremental_table_configuration" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="slippinj.cli.scripts.tables_configuration.incremental_table_configuration.IncrementalTablesConfiguration">
+<em class="property">class </em><code class="descclassname">slippinj.cli.scripts.tables_configuration.incremental_table_configuration.</code><code class="descname">IncrementalTablesConfiguration</code><a class="reference internal" href="_modules/slippinj/cli/scripts/tables_configuration/incremental_table_configuration.html#IncrementalTablesConfiguration"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#slippinj.cli.scripts.tables_configuration.incremental_table_configuration.IncrementalTablesConfiguration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#slippinj.cli.scripts.tables_configuration.group_tables_configuration.GroupTablesConfiguration" title="slippinj.cli.scripts.tables_configuration.group_tables_configuration.GroupTablesConfiguration"><code class="xref py py-class docutils literal"><span class="pre">slippinj.cli.scripts.tables_configuration.group_tables_configuration.GroupTablesConfiguration</span></code></a></p>
+<p>Generate the incremental tables configuration</p>
+<dl class="method">
+<dt id="slippinj.cli.scripts.tables_configuration.incremental_table_configuration.IncrementalTablesConfiguration.get_table_configuration">
+<code class="descname">get_table_configuration</code><span class="sig-paren">(</span><em>columns</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/slippinj/cli/scripts/tables_configuration/incremental_table_configuration.html#IncrementalTablesConfiguration.get_table_configuration"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#slippinj.cli.scripts.tables_configuration.incremental_table_configuration.IncrementalTablesConfiguration.get_table_configuration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return configuration for given table, considering it is an incremental table
+:param columns: list
+:return: dict</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-slippinj.cli.scripts.tables_configuration.others_table_configuration">
+<span id="slippinj-cli-scripts-tables-configuration-others-table-configuration-module"></span><h2>slippinj.cli.scripts.tables_configuration.others_table_configuration module<a class="headerlink" href="#module-slippinj.cli.scripts.tables_configuration.others_table_configuration" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="slippinj.cli.scripts.tables_configuration.others_table_configuration.OthersTableConfiguration">
+<em class="property">class </em><code class="descclassname">slippinj.cli.scripts.tables_configuration.others_table_configuration.</code><code class="descname">OthersTableConfiguration</code><a class="reference internal" href="_modules/slippinj/cli/scripts/tables_configuration/others_table_configuration.html#OthersTableConfiguration"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#slippinj.cli.scripts.tables_configuration.others_table_configuration.OthersTableConfiguration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#slippinj.cli.scripts.tables_configuration.group_tables_configuration.GroupTablesConfiguration" title="slippinj.cli.scripts.tables_configuration.group_tables_configuration.GroupTablesConfiguration"><code class="xref py py-class docutils literal"><span class="pre">slippinj.cli.scripts.tables_configuration.group_tables_configuration.GroupTablesConfiguration</span></code></a></p>
+<p>Generate the others tables configuration</p>
+<dl class="method">
+<dt id="slippinj.cli.scripts.tables_configuration.others_table_configuration.OthersTableConfiguration.get_table_configuration">
+<code class="descname">get_table_configuration</code><span class="sig-paren">(</span><em>columns</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/slippinj/cli/scripts/tables_configuration/others_table_configuration.html#OthersTableConfiguration.get_table_configuration"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#slippinj.cli.scripts.tables_configuration.others_table_configuration.OthersTableConfiguration.get_table_configuration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return configuration for given table, considering it is a table classified into others group
+:param columns: list
+:return: dict</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-slippinj.cli.scripts.tables_configuration.tables_configuration">
+<span id="slippinj-cli-scripts-tables-configuration-tables-configuration-module"></span><h2>slippinj.cli.scripts.tables_configuration.tables_configuration module<a class="headerlink" href="#module-slippinj.cli.scripts.tables_configuration.tables_configuration" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="slippinj.cli.scripts.tables_configuration.tables_configuration.TablesConfiguration">
+<em class="property">class </em><code class="descclassname">slippinj.cli.scripts.tables_configuration.tables_configuration.</code><code class="descname">TablesConfiguration</code><a class="reference internal" href="_modules/slippinj/cli/scripts/tables_configuration/tables_configuration.html#TablesConfiguration"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#slippinj.cli.scripts.tables_configuration.tables_configuration.TablesConfiguration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>Generate the tables configuration</p>
+<dl class="method">
+<dt id="slippinj.cli.scripts.tables_configuration.tables_configuration.TablesConfiguration.generate_configuration">
+<code class="descname">generate_configuration</code><span class="sig-paren">(</span><em>tables_information</em>, <em>injector</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/slippinj/cli/scripts/tables_configuration/tables_configuration.html#TablesConfiguration.generate_configuration"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#slippinj.cli.scripts.tables_configuration.tables_configuration.TablesConfiguration.generate_configuration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate the basic configuration given all the tables information
+:param tables_information: dict
+:param injector: Injector
+:return: dict</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-slippinj.cli.scripts.tables_configuration">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-slippinj.cli.scripts.tables_configuration" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="slippinj.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">slippinj.cli.scripts.tables_configuration package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-slippinj.cli.scripts.tables_configuration.group_tables_configuration">slippinj.cli.scripts.tables_configuration.group_tables_configuration module</a></li>
+<li><a class="reference internal" href="#module-slippinj.cli.scripts.tables_configuration.incremental_table_configuration">slippinj.cli.scripts.tables_configuration.incremental_table_configuration module</a></li>
+<li><a class="reference internal" href="#module-slippinj.cli.scripts.tables_configuration.others_table_configuration">slippinj.cli.scripts.tables_configuration.others_table_configuration module</a></li>
+<li><a class="reference internal" href="#module-slippinj.cli.scripts.tables_configuration.tables_configuration">slippinj.cli.scripts.tables_configuration.tables_configuration module</a></li>
+<li><a class="reference internal" href="#module-slippinj.cli.scripts.tables_configuration">Module contents</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="slippinj.html">Documentation overview</a><ul>
+  <li><a href="slippinj.cli.html">slippinj.cli package</a><ul>
+  <li><a href="slippinj.cli.scripts.html">slippinj.cli.scripts package</a><ul>
+      <li>Previous: <a href="slippinj.cli.scripts.html" title="previous chapter">slippinj.cli.scripts package</a></li>
+      <li>Next: <a href="slippinj.databases.html" title="next chapter">slippinj.databases package</a></li>
+  </ul></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/slippinj.cli.scripts.tables_configuration.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, Data Architects Schibsted Spain.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.6</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/slippinj.cli.scripts.tables_configuration.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

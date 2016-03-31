@@ -1,0 +1,121 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>slippinj.generator.templates_lib &mdash; Slippin Jimmy 1.1.2 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '1.1.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="top" title="Slippin Jimmy 1.1.2 documentation" href="../../../slippinj.html" />
+    <link rel="up" title="Module code" href="../../index.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for slippinj.generator.templates_lib</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">injector</span> <span class="kn">import</span> <span class="n">inject</span><span class="p">,</span> <span class="n">AssistedBuilder</span>
+<span class="kn">from</span> <span class="nn">jinja2</span> <span class="kn">import</span> <span class="n">Environment</span><span class="p">,</span> <span class="n">FileSystemLoader</span>
+
+
+<div class="viewcode-block" id="TemplatesLib"><a class="viewcode-back" href="../../../slippinj.generator.html#slippinj.generator.templates_lib.TemplatesLib">[docs]</a><span class="k">class</span> <span class="nc">TemplatesLib</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Manage all the templates library interaction&quot;&quot;&quot;</span>
+
+    <span class="nd">@inject</span><span class="p">(</span><span class="n">loader</span><span class="o">=</span><span class="n">AssistedBuilder</span><span class="p">(</span><span class="n">FileSystemLoader</span><span class="p">),</span> <span class="n">environment</span><span class="o">=</span><span class="n">AssistedBuilder</span><span class="p">(</span><span class="n">Environment</span><span class="p">))</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">loader</span><span class="p">,</span> <span class="n">environment</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize the class</span>
+<span class="sd">        :param loader: FilesystemLoader</span>
+<span class="sd">        :param environment: Environment</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">TemplatesLib</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">__loader</span> <span class="o">=</span> <span class="n">loader</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__environment</span> <span class="o">=</span> <span class="n">environment</span>
+
+    <span class="k">def</span> <span class="nf">__get_lib</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">base_directory</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__environment</span><span class="o">.</span><span class="n">build</span><span class="p">(</span>
+            <span class="n">loader</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__loader</span><span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="n">searchpath</span><span class="o">=</span><span class="n">base_directory</span><span class="p">),</span>
+            <span class="n">trim_blocks</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+            <span class="n">extensions</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;jinja2.ext.do&#39;</span><span class="p">]</span>
+        <span class="p">)</span>
+
+<div class="viewcode-block" id="TemplatesLib.render"><a class="viewcode-back" href="../../../slippinj.generator.html#slippinj.generator.templates_lib.TemplatesLib.render">[docs]</a>    <span class="k">def</span> <span class="nf">render</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">base_directory</span><span class="p">,</span> <span class="n">template_file</span><span class="p">,</span> <span class="n">template_vars</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Render the given template with the template_vars</span>
+<span class="sd">        :param base_directory: string Path where the template can be found</span>
+<span class="sd">        :param template_file: string</span>
+<span class="sd">        :param template_vars: dict</span>
+<span class="sd">        :return: string</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__get_lib</span><span class="p">(</span><span class="n">base_directory</span><span class="p">)</span><span class="o">.</span><span class="n">get_template</span><span class="p">(</span><span class="n">template_file</span><span class="p">)</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="n">template_vars</span><span class="p">)</span></div></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../../slippinj.html">Documentation overview</a><ul>
+  <li><a href="../../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, Data Architects Schibsted Spain.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.6</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

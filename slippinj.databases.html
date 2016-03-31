@@ -1,0 +1,153 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>slippinj.databases package &mdash; Slippin Jimmy 1.1.2 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.1.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Slippin Jimmy 1.1.2 documentation" href="slippinj.html" />
+    <link rel="next" title="slippinj.databases.drivers package" href="slippinj.databases.drivers.html" />
+    <link rel="prev" title="slippinj.cli.scripts.tables_configuration package" href="slippinj.cli.scripts.tables_configuration.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="slippinj-databases-package">
+<h1>slippinj.databases package<a class="headerlink" href="#slippinj-databases-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="slippinj.databases.drivers.html">slippinj.databases.drivers package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="slippinj.databases.drivers.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="slippinj.databases.drivers.html#module-slippinj.databases.drivers.sqlserver">slippinj.databases.drivers.sqlserver module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="slippinj.databases.drivers.html#module-slippinj.databases.drivers">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-slippinj.databases.db_factory">
+<span id="slippinj-databases-db-factory-module"></span><h2>slippinj.databases.db_factory module<a class="headerlink" href="#module-slippinj.databases.db_factory" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="slippinj.databases.db_factory.DBFactory">
+<em class="property">class </em><code class="descclassname">slippinj.databases.db_factory.</code><code class="descname">DBFactory</code><a class="reference internal" href="_modules/slippinj/databases/db_factory.html#DBFactory"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#slippinj.databases.db_factory.DBFactory" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>Return instances of the databases</p>
+<dl class="method">
+<dt id="slippinj.databases.db_factory.DBFactory.get_driver">
+<code class="descname">get_driver</code><span class="sig-paren">(</span><em>injector</em>, <em>driver</em>, <em>db_host='localhost'</em>, <em>db_user='root'</em>, <em>db_pwd=None</em>, <em>db_port=None</em>, <em>db_name=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/slippinj/databases/db_factory.html#DBFactory.get_driver"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#slippinj.databases.db_factory.DBFactory.get_driver" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a connection to the given database using selected driver. In case given driver is not implemented a NotImplementedError is raised
+:param injector: Injector
+:param driver: string
+:param db_host: string
+:param db_user: string
+:param db_pwd: string
+:param db_port: int
+:param db_name: string
+:return: Selected driver instance</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-slippinj.databases">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-slippinj.databases" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="slippinj.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">slippinj.databases package</a><ul>
+<li><a class="reference internal" href="#subpackages">Subpackages</a></li>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-slippinj.databases.db_factory">slippinj.databases.db_factory module</a></li>
+<li><a class="reference internal" href="#module-slippinj.databases">Module contents</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="slippinj.html">Documentation overview</a><ul>
+      <li>Previous: <a href="slippinj.cli.scripts.tables_configuration.html" title="previous chapter">slippinj.cli.scripts.tables_configuration package</a></li>
+      <li>Next: <a href="slippinj.databases.drivers.html" title="next chapter">slippinj.databases.drivers package</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/slippinj.databases.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, Data Architects Schibsted Spain.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.6</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/slippinj.databases.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

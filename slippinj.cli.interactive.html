@@ -1,0 +1,194 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>slippinj.cli.interactive package &mdash; Slippin Jimmy 1.1.2 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.1.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Slippin Jimmy 1.1.2 documentation" href="slippinj.html" />
+    <link rel="up" title="slippinj.cli package" href="slippinj.cli.html" />
+    <link rel="next" title="slippinj.cli.objects package" href="slippinj.cli.objects.html" />
+    <link rel="prev" title="slippinj.cli package" href="slippinj.cli.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="slippinj-cli-interactive-package">
+<h1>slippinj.cli.interactive package<a class="headerlink" href="#slippinj-cli-interactive-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-slippinj.cli.interactive.cluster_id">
+<span id="slippinj-cli-interactive-cluster-id-module"></span><h2>slippinj.cli.interactive.cluster_id module<a class="headerlink" href="#module-slippinj.cli.interactive.cluster_id" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="slippinj.cli.interactive.cluster_id.ClusterId">
+<em class="property">class </em><code class="descclassname">slippinj.cli.interactive.cluster_id.</code><code class="descname">ClusterId</code><span class="sig-paren">(</span><em>self_</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/slippinj/cli/interactive/cluster_id.html#ClusterId"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#slippinj.cli.interactive.cluster_id.ClusterId" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>Get the cluster id interactively asking user in the CLI</p>
+<dl class="method">
+<dt id="slippinj.cli.interactive.cluster_id.ClusterId.get">
+<code class="descname">get</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/slippinj/cli/interactive/cluster_id.html#ClusterId.get"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#slippinj.cli.interactive.cluster_id.ClusterId.get" title="Permalink to this definition">¶</a></dt>
+<dd><p>Ask the user to select one cluster from the currently active
+:return: string</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-slippinj.cli.interactive.configuration_file">
+<span id="slippinj-cli-interactive-configuration-file-module"></span><h2>slippinj.cli.interactive.configuration_file module<a class="headerlink" href="#module-slippinj.cli.interactive.configuration_file" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="slippinj.cli.interactive.configuration_file.ConfigurationFile">
+<em class="property">class </em><code class="descclassname">slippinj.cli.interactive.configuration_file.</code><code class="descname">ConfigurationFile</code><span class="sig-paren">(</span><em>self_</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/slippinj/cli/interactive/configuration_file.html#ConfigurationFile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#slippinj.cli.interactive.configuration_file.ConfigurationFile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>Get the configuration file to use when managing workflows</p>
+<dl class="method">
+<dt id="slippinj.cli.interactive.configuration_file.ConfigurationFile.get">
+<code class="descname">get</code><span class="sig-paren">(</span><em>wf_dir</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/slippinj/cli/interactive/configuration_file.html#ConfigurationFile.get"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#slippinj.cli.interactive.configuration_file.ConfigurationFile.get" title="Permalink to this definition">¶</a></dt>
+<dd><p>Ask user to select which configuration files would like to use from all the files found
+:param wf_dir: string
+:return: list</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-slippinj.cli.interactive.default_configuration">
+<span id="slippinj-cli-interactive-default-configuration-module"></span><h2>slippinj.cli.interactive.default_configuration module<a class="headerlink" href="#module-slippinj.cli.interactive.default_configuration" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="slippinj.cli.interactive.default_configuration.DefaultConfiguration">
+<em class="property">class </em><code class="descclassname">slippinj.cli.interactive.default_configuration.</code><code class="descname">DefaultConfiguration</code><span class="sig-paren">(</span><em>self_</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/slippinj/cli/interactive/default_configuration.html#DefaultConfiguration"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#slippinj.cli.interactive.default_configuration.DefaultConfiguration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>Get the default configuration for the workflows</p>
+<dl class="method">
+<dt id="slippinj.cli.interactive.default_configuration.DefaultConfiguration.get">
+<code class="descname">get</code><span class="sig-paren">(</span><em>environment</em>, <em>arguments</em>, <em>workflow_configuration</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/slippinj/cli/interactive/default_configuration.html#DefaultConfiguration.get"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#slippinj.cli.interactive.default_configuration.DefaultConfiguration.get" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get configuration parameters that are common to the workflows
+:param environment: string
+:param arguments: Namespace
+:param workflow_configuration: dict
+:return: dict</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-slippinj.cli.interactive.properties_file">
+<span id="slippinj-cli-interactive-properties-file-module"></span><h2>slippinj.cli.interactive.properties_file module<a class="headerlink" href="#module-slippinj.cli.interactive.properties_file" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="slippinj.cli.interactive.properties_file.PropertiesFile">
+<em class="property">class </em><code class="descclassname">slippinj.cli.interactive.properties_file.</code><code class="descname">PropertiesFile</code><span class="sig-paren">(</span><em>self_</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/slippinj/cli/interactive/properties_file.html#PropertiesFile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#slippinj.cli.interactive.properties_file.PropertiesFile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>Get the properties file to run on the cluster</p>
+<dl class="method">
+<dt id="slippinj.cli.interactive.properties_file.PropertiesFile.get">
+<code class="descname">get</code><span class="sig-paren">(</span><em>wf_dir</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/slippinj/cli/interactive/properties_file.html#PropertiesFile.get"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#slippinj.cli.interactive.properties_file.PropertiesFile.get" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find all the properties file inside given workflow directory
+:param wf_dir: string
+:return: string</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-slippinj.cli.interactive">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-slippinj.cli.interactive" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="slippinj.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">slippinj.cli.interactive package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-slippinj.cli.interactive.cluster_id">slippinj.cli.interactive.cluster_id module</a></li>
+<li><a class="reference internal" href="#module-slippinj.cli.interactive.configuration_file">slippinj.cli.interactive.configuration_file module</a></li>
+<li><a class="reference internal" href="#module-slippinj.cli.interactive.default_configuration">slippinj.cli.interactive.default_configuration module</a></li>
+<li><a class="reference internal" href="#module-slippinj.cli.interactive.properties_file">slippinj.cli.interactive.properties_file module</a></li>
+<li><a class="reference internal" href="#module-slippinj.cli.interactive">Module contents</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="slippinj.html">Documentation overview</a><ul>
+  <li><a href="slippinj.cli.html">slippinj.cli package</a><ul>
+      <li>Previous: <a href="slippinj.cli.html" title="previous chapter">slippinj.cli package</a></li>
+      <li>Next: <a href="slippinj.cli.objects.html" title="next chapter">slippinj.cli.objects package</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/slippinj.cli.interactive.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, Data Architects Schibsted Spain.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.6</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/slippinj.cli.interactive.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -1,0 +1,123 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>slippinj.cli.interactive.cluster_id &mdash; Slippin Jimmy 1.1.2 documentation</title>
+    
+    <link rel="stylesheet" href="../../../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../../',
+        VERSION:     '1.1.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../../_static/doctools.js"></script>
+    <link rel="top" title="Slippin Jimmy 1.1.2 documentation" href="../../../../slippinj.html" />
+    <link rel="up" title="Module code" href="../../../index.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for slippinj.cli.interactive.cluster_id</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">injector</span> <span class="kn">import</span> <span class="n">inject</span>
+
+
+<div class="viewcode-block" id="ClusterId"><a class="viewcode-back" href="../../../../slippinj.cli.interactive.html#slippinj.cli.interactive.cluster_id.ClusterId">[docs]</a><span class="k">class</span> <span class="nc">ClusterId</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Get the cluster id interactively asking user in the CLI&quot;&quot;&quot;</span>
+
+    <span class="nd">@inject</span><span class="p">(</span><span class="n">aws_emr_client</span><span class="o">=</span><span class="s1">&#39;aws_emr_client&#39;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">aws_emr_client</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize the class</span>
+<span class="sd">        :param aws_emr_client: EMR.client</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">ClusterId</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">__aws_emr_client</span> <span class="o">=</span> <span class="n">aws_emr_client</span>
+
+<div class="viewcode-block" id="ClusterId.get"><a class="viewcode-back" href="../../../../slippinj.cli.interactive.html#slippinj.cli.interactive.cluster_id.ClusterId.get">[docs]</a>    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Ask the user to select one cluster from the currently active</span>
+<span class="sd">        :return: string</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">print</span> <span class="s1">&#39;Cluster id has not been provided, getting the cluster currently active to select one... please be patient&#39;</span>
+        <span class="n">cluster_list</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__aws_emr_client</span><span class="o">.</span><span class="n">list_clusters</span><span class="p">(</span>
+            <span class="n">ClusterStates</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;STARTING&#39;</span><span class="p">,</span> <span class="s1">&#39;BOOTSTRAPPING&#39;</span><span class="p">,</span> <span class="s1">&#39;RUNNING&#39;</span><span class="p">,</span> <span class="s1">&#39;WAITING&#39;</span><span class="p">])</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">cluster_list</span><span class="p">[</span><span class="s1">&#39;Clusters&#39;</span><span class="p">]:</span>
+            <span class="k">raise</span> <span class="ne">LookupError</span><span class="p">(</span><span class="s1">&#39;There are not available cluster to upload the code&#39;</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">cluster</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">cluster_list</span><span class="p">[</span><span class="s1">&#39;Clusters&#39;</span><span class="p">]):</span>
+            <span class="k">print</span> <span class="s1">&#39;[{index}]</span><span class="se">\t</span><span class="s1">Cluster Name: {name}</span><span class="se">\t</span><span class="s1">Cluster Id: {id}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="n">index</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">cluster</span><span class="p">[</span><span class="s1">&#39;Name&#39;</span><span class="p">],</span>
+                                                                             <span class="nb">id</span><span class="o">=</span><span class="n">cluster</span><span class="p">[</span><span class="s1">&#39;Id&#39;</span><span class="p">])</span>
+
+        <span class="n">index</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">raw_input</span><span class="p">(</span><span class="s1">&#39;Select cluster to deploy in: &#39;</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">index</span> <span class="o">&gt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">cluster_list</span><span class="p">[</span><span class="s1">&#39;Clusters&#39;</span><span class="p">]):</span>
+            <span class="k">raise</span> <span class="ne">LookupError</span><span class="p">(</span><span class="s1">&#39;Selected cluster not in list&#39;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">cluster_list</span><span class="p">[</span><span class="s1">&#39;Clusters&#39;</span><span class="p">][</span><span class="n">index</span><span class="p">][</span><span class="s1">&#39;Id&#39;</span><span class="p">]</span></div></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../../../slippinj.html">Documentation overview</a><ul>
+  <li><a href="../../../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, Data Architects Schibsted Spain.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.6</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

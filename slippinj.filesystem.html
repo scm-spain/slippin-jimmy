@@ -1,0 +1,275 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>slippinj.filesystem package &mdash; Slippin Jimmy 1.1.2 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.1.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Slippin Jimmy 1.1.2 documentation" href="slippinj.html" />
+    <link rel="next" title="slippinj.generator package" href="slippinj.generator.html" />
+    <link rel="prev" title="slippinj.emr.job_flow.arguments package" href="slippinj.emr.job_flow.arguments.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="slippinj-filesystem-package">
+<h1>slippinj.filesystem package<a class="headerlink" href="#slippinj-filesystem-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-slippinj.filesystem.excel_writer">
+<span id="slippinj-filesystem-excel-writer-module"></span><h2>slippinj.filesystem.excel_writer module<a class="headerlink" href="#module-slippinj.filesystem.excel_writer" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="slippinj.filesystem.excel_writer.ExcelWriter">
+<em class="property">class </em><code class="descclassname">slippinj.filesystem.excel_writer.</code><code class="descname">ExcelWriter</code><span class="sig-paren">(</span><em>self_</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/slippinj/filesystem/excel_writer.html#ExcelWriter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#slippinj.filesystem.excel_writer.ExcelWriter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>Generates the Excel files</p>
+<dl class="method">
+<dt id="slippinj.filesystem.excel_writer.ExcelWriter.generate_excel_file">
+<code class="descname">generate_excel_file</code><span class="sig-paren">(</span><em>tables_information</em>, <em>db_name</em>, <em>location</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/slippinj/filesystem/excel_writer.html#ExcelWriter.generate_excel_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#slippinj.filesystem.excel_writer.ExcelWriter.generate_excel_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate all the excel file content given tables list and save it into a location
+:param tables_information: dict
+:param db_name: string
+:param location: string
+:return: boolean</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-slippinj.filesystem.filesystem">
+<span id="slippinj-filesystem-filesystem-module"></span><h2>slippinj.filesystem.filesystem module<a class="headerlink" href="#module-slippinj.filesystem.filesystem" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="slippinj.filesystem.filesystem.Filesystem">
+<em class="property">class </em><code class="descclassname">slippinj.filesystem.filesystem.</code><code class="descname">Filesystem</code><span class="sig-paren">(</span><em>self_</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/slippinj/filesystem/filesystem.html#Filesystem"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#slippinj.filesystem.filesystem.Filesystem" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>Manage the filesystem</p>
+<dl class="method">
+<dt id="slippinj.filesystem.filesystem.Filesystem.find_properties_file">
+<code class="descname">find_properties_file</code><span class="sig-paren">(</span><em>wf_folder</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/slippinj/filesystem/filesystem.html#Filesystem.find_properties_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#slippinj.filesystem.filesystem.Filesystem.find_properties_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find all the properties file inside the given folder
+:param wf_folder: string
+:return: list</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="slippinj.filesystem.filesystem.Filesystem.generate_tar_file">
+<code class="descname">generate_tar_file</code><span class="sig-paren">(</span><em>wf_folder</em>, <em>workflow_name=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/slippinj/filesystem/filesystem.html#Filesystem.generate_tar_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#slippinj.filesystem.filesystem.Filesystem.generate_tar_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate a tar file and compress inside all the workflow code, and returns the path to the newly created file
+:param wf_folder: string
+:param workflow_name: string
+:return: string</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="slippinj.filesystem.filesystem.Filesystem.generate_temp_dir">
+<code class="descname">generate_temp_dir</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/slippinj/filesystem/filesystem.html#Filesystem.generate_temp_dir"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#slippinj.filesystem.filesystem.Filesystem.generate_temp_dir" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate a temporary directory and return the path to it
+:return: string</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="slippinj.filesystem.filesystem.Filesystem.mkdir">
+<code class="descname">mkdir</code><span class="sig-paren">(</span><em>output_dir</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/slippinj/filesystem/filesystem.html#Filesystem.mkdir"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#slippinj.filesystem.filesystem.Filesystem.mkdir" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a directory into filesystem
+:param output_dir: string
+:return: boolean</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="slippinj.filesystem.filesystem.Filesystem.remove_temp_dir">
+<code class="descname">remove_temp_dir</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/slippinj/filesystem/filesystem.html#Filesystem.remove_temp_dir"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#slippinj.filesystem.filesystem.Filesystem.remove_temp_dir" title="Permalink to this definition">¶</a></dt>
+<dd><p>Remove the temporary directory created using self.generate_temp_dir</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="slippinj.filesystem.filesystem.Filesystem.write_file">
+<code class="descname">write_file</code><span class="sig-paren">(</span><em>output_file</em>, <em>content</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/slippinj/filesystem/filesystem.html#Filesystem.write_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#slippinj.filesystem.filesystem.Filesystem.write_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write given content into file
+:param output_file: string
+:param content: string</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-slippinj.filesystem.hdfs">
+<span id="slippinj-filesystem-hdfs-module"></span><h2>slippinj.filesystem.hdfs module<a class="headerlink" href="#module-slippinj.filesystem.hdfs" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="slippinj.filesystem.hdfs.HDFSFilesystem">
+<em class="property">class </em><code class="descclassname">slippinj.filesystem.hdfs.</code><code class="descname">HDFSFilesystem</code><span class="sig-paren">(</span><em>self_</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/slippinj/filesystem/hdfs.html#HDFSFilesystem"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#slippinj.filesystem.hdfs.HDFSFilesystem" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>Run HDFS commands inside the cluster</p>
+<dl class="method">
+<dt id="slippinj.filesystem.hdfs.HDFSFilesystem.mkdir">
+<code class="descname">mkdir</code><span class="sig-paren">(</span><em>path</em>, <em>cluster_id</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/slippinj/filesystem/hdfs.html#HDFSFilesystem.mkdir"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#slippinj.filesystem.hdfs.HDFSFilesystem.mkdir" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="slippinj.filesystem.hdfs.HDFSFilesystem.put">
+<code class="descname">put</code><span class="sig-paren">(</span><em>src</em>, <em>dest</em>, <em>cluster_id</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/slippinj/filesystem/hdfs.html#HDFSFilesystem.put"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#slippinj.filesystem.hdfs.HDFSFilesystem.put" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="slippinj.filesystem.hdfs.HDFSFilesystem.rmdir">
+<code class="descname">rmdir</code><span class="sig-paren">(</span><em>path</em>, <em>cluster_id</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/slippinj/filesystem/hdfs.html#HDFSFilesystem.rmdir"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#slippinj.filesystem.hdfs.HDFSFilesystem.rmdir" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-slippinj.filesystem.yaml_configuration">
+<span id="slippinj-filesystem-yaml-configuration-module"></span><h2>slippinj.filesystem.yaml_configuration module<a class="headerlink" href="#module-slippinj.filesystem.yaml_configuration" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="slippinj.filesystem.yaml_configuration.WorkflowsYamlConfigurationWriter">
+<em class="property">class </em><code class="descclassname">slippinj.filesystem.yaml_configuration.</code><code class="descname">WorkflowsYamlConfigurationWriter</code><span class="sig-paren">(</span><em>self_</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/slippinj/filesystem/yaml_configuration.html#WorkflowsYamlConfigurationWriter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#slippinj.filesystem.yaml_configuration.WorkflowsYamlConfigurationWriter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>Write the YAML configuration files needed to run the workflows</p>
+<dl class="method">
+<dt id="slippinj.filesystem.yaml_configuration.WorkflowsYamlConfigurationWriter.generate_yaml_files">
+<code class="descname">generate_yaml_files</code><span class="sig-paren">(</span><em>injector</em>, <em>tables_information</em>, <em>db_driver</em>, <em>db_host</em>, <em>db_port</em>, <em>db_user</em>, <em>db_name</em>, <em>db_password</em>, <em>location=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/slippinj/filesystem/yaml_configuration.html#WorkflowsYamlConfigurationWriter.generate_yaml_files"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#slippinj.filesystem.yaml_configuration.WorkflowsYamlConfigurationWriter.generate_yaml_files" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given tables and database connection information generate the YAML files and save them into provided location
+:param injector: Injector
+:param tables_information: dict
+:param db_driver: string
+:param db_host: string
+:param db_port: integer
+:param db_user: string
+:param db_name: string
+:param db_password: string
+:param location: string</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="slippinj.filesystem.yaml_configuration.YamlConfiguration">
+<em class="property">class </em><code class="descclassname">slippinj.filesystem.yaml_configuration.</code><code class="descname">YamlConfiguration</code><span class="sig-paren">(</span><em>self_</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/slippinj/filesystem/yaml_configuration.html#YamlConfiguration"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#slippinj.filesystem.yaml_configuration.YamlConfiguration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>Process YAML configuration files</p>
+<dl class="method">
+<dt id="slippinj.filesystem.yaml_configuration.YamlConfiguration.autodiscover_config_files">
+<code class="descname">autodiscover_config_files</code><span class="sig-paren">(</span><em>root_dir</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/slippinj/filesystem/yaml_configuration.html#YamlConfiguration.autodiscover_config_files"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#slippinj.filesystem.yaml_configuration.YamlConfiguration.autodiscover_config_files" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find all the YAML files inside the given directory
+:param root_dir: string
+:return: list</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="slippinj.filesystem.yaml_configuration.YamlConfiguration.read_config_file">
+<code class="descname">read_config_file</code><span class="sig-paren">(</span><em>config_file</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/slippinj/filesystem/yaml_configuration.html#YamlConfiguration.read_config_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#slippinj.filesystem.yaml_configuration.YamlConfiguration.read_config_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read the given configuration file
+:param config_file: string
+:return: dict</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="slippinj.filesystem.yaml_configuration.YamlConfiguration.read_multiple_config_files">
+<code class="descname">read_multiple_config_files</code><span class="sig-paren">(</span><em>configuration_files</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/slippinj/filesystem/yaml_configuration.html#YamlConfiguration.read_multiple_config_files"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#slippinj.filesystem.yaml_configuration.YamlConfiguration.read_multiple_config_files" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given multiple YAML files read all and merge there content in the given order, overriding same configuration keys
+:param configuration_files: list
+:return: dict</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-slippinj.filesystem">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-slippinj.filesystem" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="slippinj.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">slippinj.filesystem package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-slippinj.filesystem.excel_writer">slippinj.filesystem.excel_writer module</a></li>
+<li><a class="reference internal" href="#module-slippinj.filesystem.filesystem">slippinj.filesystem.filesystem module</a></li>
+<li><a class="reference internal" href="#module-slippinj.filesystem.hdfs">slippinj.filesystem.hdfs module</a></li>
+<li><a class="reference internal" href="#module-slippinj.filesystem.yaml_configuration">slippinj.filesystem.yaml_configuration module</a></li>
+<li><a class="reference internal" href="#module-slippinj.filesystem">Module contents</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="slippinj.html">Documentation overview</a><ul>
+      <li>Previous: <a href="slippinj.emr.job_flow.arguments.html" title="previous chapter">slippinj.emr.job_flow.arguments package</a></li>
+      <li>Next: <a href="slippinj.generator.html" title="next chapter">slippinj.generator package</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/slippinj.filesystem.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, Data Architects Schibsted Spain.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.6</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/slippinj.filesystem.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

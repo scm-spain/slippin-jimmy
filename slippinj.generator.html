@@ -1,0 +1,177 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>slippinj.generator package &mdash; Slippin Jimmy 1.1.2 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.1.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Slippin Jimmy 1.1.2 documentation" href="slippinj.html" />
+    <link rel="next" title="slippinj.provision package" href="slippinj.provision.html" />
+    <link rel="prev" title="slippinj.filesystem package" href="slippinj.filesystem.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="slippinj-generator-package">
+<h1>slippinj.generator package<a class="headerlink" href="#slippinj-generator-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-slippinj.generator.hive_templates">
+<span id="slippinj-generator-hive-templates-module"></span><h2>slippinj.generator.hive_templates module<a class="headerlink" href="#module-slippinj.generator.hive_templates" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="slippinj.generator.hive_templates.HiveTemplatesRender">
+<em class="property">class </em><code class="descclassname">slippinj.generator.hive_templates.</code><code class="descname">HiveTemplatesRender</code><span class="sig-paren">(</span><em>self_</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/slippinj/generator/hive_templates.html#HiveTemplatesRender"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#slippinj.generator.hive_templates.HiveTemplatesRender" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#slippinj.generator.wf_templates.WfTemplatesRender" title="slippinj.generator.wf_templates.WfTemplatesRender"><code class="xref py py-class docutils literal"><span class="pre">slippinj.generator.wf_templates.WfTemplatesRender</span></code></a></p>
+<p>Process templates to generate custom Hive scripts</p>
+<dl class="method">
+<dt id="slippinj.generator.hive_templates.HiveTemplatesRender.render_hive_folder">
+<code class="descname">render_hive_folder</code><span class="sig-paren">(</span><em>template_dir</em>, <em>template</em>, <em>output_folder</em>, <em>tables_configuration</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/slippinj/generator/hive_templates.html#HiveTemplatesRender.render_hive_folder"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#slippinj.generator.hive_templates.HiveTemplatesRender.render_hive_folder" title="Permalink to this definition">¶</a></dt>
+<dd><p>Render all the templates related to hive
+:param template_dir: string
+:param template: string
+:param output_folder: string
+:param tables_configuration: dict</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-slippinj.generator.templates_lib">
+<span id="slippinj-generator-templates-lib-module"></span><h2>slippinj.generator.templates_lib module<a class="headerlink" href="#module-slippinj.generator.templates_lib" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="slippinj.generator.templates_lib.TemplatesLib">
+<em class="property">class </em><code class="descclassname">slippinj.generator.templates_lib.</code><code class="descname">TemplatesLib</code><span class="sig-paren">(</span><em>self_</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/slippinj/generator/templates_lib.html#TemplatesLib"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#slippinj.generator.templates_lib.TemplatesLib" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>Manage all the templates library interaction</p>
+<dl class="method">
+<dt id="slippinj.generator.templates_lib.TemplatesLib.render">
+<code class="descname">render</code><span class="sig-paren">(</span><em>base_directory</em>, <em>template_file</em>, <em>template_vars</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/slippinj/generator/templates_lib.html#TemplatesLib.render"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#slippinj.generator.templates_lib.TemplatesLib.render" title="Permalink to this definition">¶</a></dt>
+<dd><p>Render the given template with the template_vars
+:param base_directory: string Path where the template can be found
+:param template_file: string
+:param template_vars: dict
+:return: string</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-slippinj.generator.wf_templates">
+<span id="slippinj-generator-wf-templates-module"></span><h2>slippinj.generator.wf_templates module<a class="headerlink" href="#module-slippinj.generator.wf_templates" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="slippinj.generator.wf_templates.WfTemplatesRender">
+<em class="property">class </em><code class="descclassname">slippinj.generator.wf_templates.</code><code class="descname">WfTemplatesRender</code><span class="sig-paren">(</span><em>self_</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/slippinj/generator/wf_templates.html#WfTemplatesRender"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#slippinj.generator.wf_templates.WfTemplatesRender" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>Proccess the templates to generate a whole Oozie Workflow using Jinja2 syntax</p>
+<dl class="method">
+<dt id="slippinj.generator.wf_templates.WfTemplatesRender.render_workflow_folder">
+<code class="descname">render_workflow_folder</code><span class="sig-paren">(</span><em>base_directory</em>, <em>template_dir</em>, <em>output_folder</em>, <em>template_vars</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/slippinj/generator/wf_templates.html#WfTemplatesRender.render_workflow_folder"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#slippinj.generator.wf_templates.WfTemplatesRender.render_workflow_folder" title="Permalink to this definition">¶</a></dt>
+<dd><p>From the given template render all the files found inside and recreate the structure into output directory
+:param base_directory: string
+:param template_dir: string
+:param output_folder: string
+:param template_vars: dict</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-slippinj.generator">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-slippinj.generator" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="slippinj.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">slippinj.generator package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-slippinj.generator.hive_templates">slippinj.generator.hive_templates module</a></li>
+<li><a class="reference internal" href="#module-slippinj.generator.templates_lib">slippinj.generator.templates_lib module</a></li>
+<li><a class="reference internal" href="#module-slippinj.generator.wf_templates">slippinj.generator.wf_templates module</a></li>
+<li><a class="reference internal" href="#module-slippinj.generator">Module contents</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="slippinj.html">Documentation overview</a><ul>
+      <li>Previous: <a href="slippinj.filesystem.html" title="previous chapter">slippinj.filesystem package</a></li>
+      <li>Next: <a href="slippinj.provision.html" title="next chapter">slippinj.provision package</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/slippinj.generator.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, Data Architects Schibsted Spain.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.6</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/slippinj.generator.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

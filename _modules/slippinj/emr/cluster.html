@@ -1,0 +1,184 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>slippinj.emr.cluster &mdash; Slippin Jimmy 1.1.2 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '1.1.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="top" title="Slippin Jimmy 1.1.2 documentation" href="../../../slippinj.html" />
+    <link rel="up" title="Module code" href="../../index.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for slippinj.emr.cluster</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">injector</span> <span class="kn">import</span> <span class="n">inject</span><span class="p">,</span> <span class="n">AssistedBuilder</span>
+
+<span class="kn">from</span> <span class="nn">slippinj.cli.ssh</span> <span class="kn">import</span> <span class="n">SSHClient</span>
+
+
+<div class="viewcode-block" id="EmrCluster"><a class="viewcode-back" href="../../../slippinj.emr.html#slippinj.emr.cluster.EmrCluster">[docs]</a><span class="k">class</span> <span class="nc">EmrCluster</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Handle all EMR cluster information and configuration&quot;&quot;&quot;</span>
+
+    <span class="nd">@inject</span><span class="p">(</span><span class="n">aws_emr_client</span><span class="o">=</span><span class="s1">&#39;aws_emr_client&#39;</span><span class="p">,</span> <span class="n">ssh_client</span><span class="o">=</span><span class="n">AssistedBuilder</span><span class="p">(</span><span class="n">SSHClient</span><span class="p">),</span> <span class="n">args</span><span class="o">=</span><span class="s1">&#39;args&#39;</span><span class="p">,</span> <span class="n">logger</span><span class="o">=</span><span class="s1">&#39;logger&#39;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">aws_emr_client</span><span class="p">,</span> <span class="n">ssh_client</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">logger</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize the class</span>
+<span class="sd">        :param aws_emr_client: EMR.client</span>
+<span class="sd">        :param ssh_client: paramiko.SSHClient</span>
+<span class="sd">        :param args: Namespace</span>
+<span class="sd">        :param logger: Logging</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">EmrCluster</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__aws_emr_client</span> <span class="o">=</span> <span class="n">aws_emr_client</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__ssh_client</span> <span class="o">=</span> <span class="n">ssh_client</span><span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="n">pem_files_dir</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">pem_dir</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__cluster_information</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__logger</span> <span class="o">=</span> <span class="n">logger</span>
+
+    <span class="k">def</span> <span class="nf">__get_cluster_environment</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tags</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">tag</span> <span class="ow">in</span> <span class="n">tags</span><span class="p">:</span>
+            <span class="k">if</span> <span class="s1">&#39;environment&#39;</span> <span class="o">==</span> <span class="n">tag</span><span class="p">[</span><span class="s1">&#39;Key&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span>
+                <span class="k">return</span> <span class="n">tag</span><span class="p">[</span><span class="s1">&#39;Value&#39;</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="bp">False</span>
+
+    <span class="k">def</span> <span class="nf">__get_cluster</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cluster_id</span><span class="p">):</span>
+        <span class="n">cluster</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__aws_emr_client</span><span class="o">.</span><span class="n">describe_cluster</span><span class="p">(</span><span class="n">ClusterId</span><span class="o">=</span><span class="n">cluster_id</span><span class="p">)</span>
+        <span class="n">instances</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__aws_emr_client</span><span class="o">.</span><span class="n">list_instances</span><span class="p">(</span><span class="n">ClusterId</span><span class="o">=</span><span class="n">cluster_id</span><span class="p">,</span> <span class="n">InstanceGroupTypes</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;MASTER&#39;</span><span class="p">])</span>
+
+        <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span><span class="n">cluster</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="o">+</span> <span class="n">instances</span><span class="o">.</span><span class="n">items</span><span class="p">())</span>
+
+    <span class="k">def</span> <span class="nf">__get_master_ips</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cluster_information</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">instance</span> <span class="ow">in</span> <span class="n">cluster_information</span><span class="p">[</span><span class="s1">&#39;Instances&#39;</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="n">cluster_information</span><span class="p">[</span><span class="s1">&#39;Cluster&#39;</span><span class="p">][</span><span class="s1">&#39;MasterPublicDnsName&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">instance</span><span class="p">[</span><span class="s1">&#39;PublicDnsName&#39;</span><span class="p">]:</span>
+                <span class="k">return</span> <span class="n">instance</span><span class="p">[</span><span class="s1">&#39;PublicIpAddress&#39;</span><span class="p">],</span> <span class="n">instance</span><span class="p">[</span><span class="s1">&#39;PrivateIpAddress&#39;</span><span class="p">]</span>
+
+<div class="viewcode-block" id="EmrCluster.get_cluster_information"><a class="viewcode-back" href="../../../slippinj.emr.html#slippinj.emr.cluster.EmrCluster.get_cluster_information">[docs]</a>    <span class="k">def</span> <span class="nf">get_cluster_information</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cluster_id</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the cluster information from the AWS API</span>
+<span class="sd">        :param cluster_id: string</span>
+<span class="sd">        :return: dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">cluster_id</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__cluster_information</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Getting information from AWS for cluster {cluster_id}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">cluster_id</span><span class="o">=</span><span class="n">cluster_id</span><span class="p">))</span>
+            <span class="n">cluster_information</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__get_cluster</span><span class="p">(</span><span class="n">cluster_id</span><span class="p">)</span>
+
+            <span class="n">cluster_ips</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__get_master_ips</span><span class="p">(</span><span class="n">cluster_information</span><span class="p">)</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">__cluster_information</span><span class="p">[</span><span class="n">cluster_id</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s1">&#39;public_dns&#39;</span><span class="p">:</span> <span class="n">cluster_information</span><span class="p">[</span><span class="s1">&#39;Cluster&#39;</span><span class="p">][</span><span class="s1">&#39;MasterPublicDnsName&#39;</span><span class="p">],</span>
+                <span class="s1">&#39;public_ip&#39;</span><span class="p">:</span> <span class="n">cluster_ips</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                <span class="s1">&#39;private_ip&#39;</span><span class="p">:</span> <span class="n">cluster_ips</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+                <span class="s1">&#39;environment&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">__get_cluster_environment</span><span class="p">(</span><span class="n">cluster_information</span><span class="p">[</span><span class="s1">&#39;Cluster&#39;</span><span class="p">][</span><span class="s1">&#39;Tags&#39;</span><span class="p">]),</span>
+                <span class="s1">&#39;key_name&#39;</span><span class="p">:</span> <span class="n">cluster_information</span><span class="p">[</span><span class="s1">&#39;Cluster&#39;</span><span class="p">][</span><span class="s1">&#39;Ec2InstanceAttributes&#39;</span><span class="p">][</span><span class="s1">&#39;Ec2KeyName&#39;</span><span class="p">]</span>
+            <span class="p">}</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__cluster_information</span><span class="p">[</span><span class="n">cluster_id</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="EmrCluster.exec_command"><a class="viewcode-back" href="../../../slippinj.emr.html#slippinj.emr.cluster.EmrCluster.exec_command">[docs]</a>    <span class="k">def</span> <span class="nf">exec_command</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">command</span><span class="p">,</span> <span class="n">cluster_id</span><span class="p">,</span> <span class="n">stop_on_error</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Execute given command in the master of the selected cluster</span>
+<span class="sd">        :param command: string</span>
+<span class="sd">        :param cluster_id: string</span>
+<span class="sd">        :param stop_on_error: boolean</span>
+<span class="sd">        :return: string</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">cluster_information</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_cluster_information</span><span class="p">(</span><span class="n">cluster_id</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">__logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
+            <span class="s1">&#39;Executing command {command} in cluster {cluster_id}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">command</span><span class="o">=</span><span class="n">command</span><span class="p">,</span> <span class="n">cluster_id</span><span class="o">=</span><span class="n">cluster_id</span><span class="p">))</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__ssh_client</span><span class="o">.</span><span class="n">exec_command</span><span class="p">(</span><span class="n">command</span><span class="p">,</span> <span class="n">cluster_information</span><span class="p">[</span><span class="s1">&#39;public_dns&#39;</span><span class="p">],</span>
+                                              <span class="n">cluster_information</span><span class="p">[</span><span class="s1">&#39;key_name&#39;</span><span class="p">],</span> <span class="n">stop_on_error</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="EmrCluster.open_sftp"><a class="viewcode-back" href="../../../slippinj.emr.html#slippinj.emr.cluster.EmrCluster.open_sftp">[docs]</a>    <span class="k">def</span> <span class="nf">open_sftp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cluster_id</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Open an SFTP connection to the given cluster</span>
+<span class="sd">        :param cluster_id: string</span>
+<span class="sd">        :return: SFTP</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">cluster_information</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_cluster_information</span><span class="p">(</span><span class="n">cluster_id</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">__logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Opening SFTP connection to cluster {cluster_id}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">cluster_id</span><span class="o">=</span><span class="n">cluster_id</span><span class="p">))</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__ssh_client</span><span class="o">.</span><span class="n">open_sftp</span><span class="p">(</span><span class="n">cluster_information</span><span class="p">[</span><span class="s1">&#39;public_dns&#39;</span><span class="p">],</span> <span class="n">cluster_information</span><span class="p">[</span><span class="s1">&#39;key_name&#39;</span><span class="p">])</span></div>
+
+<div class="viewcode-block" id="EmrCluster.get_pem_path"><a class="viewcode-back" href="../../../slippinj.emr.html#slippinj.emr.cluster.EmrCluster.get_pem_path">[docs]</a>    <span class="k">def</span> <span class="nf">get_pem_path</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cluster_id</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the path to the private key file to connect to the cluster</span>
+<span class="sd">        :param cluster_id: string</span>
+<span class="sd">        :return: string</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">cluster_information</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_cluster_information</span><span class="p">(</span><span class="n">cluster_id</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__ssh_client</span><span class="o">.</span><span class="n">get_pem_path</span><span class="p">(</span><span class="n">cluster_information</span><span class="p">[</span><span class="s1">&#39;key_name&#39;</span><span class="p">])</span></div></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../../slippinj.html">Documentation overview</a><ul>
+  <li><a href="../../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, Data Architects Schibsted Spain.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.6</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>
