@@ -24,7 +24,6 @@ test: clean
 clean:
 	rm -rf build dist $(PROJECT).egg-info docs-api tmp .cache
 	find . -name "*.pyc" -exec rm -rf {} \;
-	rm -rf $(BUILDDIR)/*
 
 publish:
 	python setup.py sdist
