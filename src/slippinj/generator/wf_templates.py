@@ -20,7 +20,8 @@ class WfTemplatesRender(object):
         self.__filesystem = filesystem
         self.__logger = logger
 
-    def __generate_output_filename(self, filename, template_vars):
+    def _generate_output_filename(self, filename, template_vars):
+        self.__logger.debug('Output from WFTemplatesRender')
         return filename.replace('.j2', '')
 
     def __render_template_files(self, base_directory, output_folder, template_dir, template_vars, root_folder, files):
@@ -29,7 +30,7 @@ class WfTemplatesRender(object):
             self.__logger.debug('Rendering template file {template_file}'.format(template_file=template_file))
             full_template_file = os.path.join(root_folder.replace(base_directory, ''), template_file)
 
-            output_file = os.path.join(files_output_folder, self.__generate_output_filename(template_file, template_vars))
+            output_file = os.path.join(files_output_folder, self._generate_output_filename(template_file, template_vars))
             self.__logger.debug('Writing rendered template into {output_file}'.format(output_file=output_file))
             self.__filesystem.write_file(
                 output_file,

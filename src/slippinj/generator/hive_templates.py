@@ -6,7 +6,7 @@ from ..generator.wf_templates import WfTemplatesRender
 class HiveTemplatesRender(WfTemplatesRender):
     """Process templates to generate custom Hive scripts"""
 
-    def __generate_output_filename(self, filename, template_vars):
+    def _generate_output_filename(self, filename, template_vars):
         return Template(filename).substitute(template_vars).replace('.j2', '')
 
     def render_hive_folder(self, template_dir, template, output_folder, tables_configuration):
