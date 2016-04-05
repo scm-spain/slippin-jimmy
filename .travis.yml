@@ -1,8 +1,12 @@
 # https://travis-ci.org/scm-spain/slippin-jimmy
 language: python
 python:
-    - 2.7.8
-    - 2.7
+- 2.7
+
+addons:
+  apt:
+    packages:
+    - freetds-dev
 
 install: pip install -r requirements.txt
 
