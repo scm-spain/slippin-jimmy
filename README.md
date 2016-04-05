@@ -1,13 +1,10 @@
 # Oozie workflow tools AKA Slippin Jimmy
+[![Build Status](https://travis-ci.org/scm-spain/slippin-jimmy.svg?branch=master)](https://travis-ci.org/scm-spain/slippin-jimmy)
 Generating Oozie workflows can be a tedious task, coding XML is not awesome, so you can generate them from Jinja templates using the process_templates.py script.
 
 ## Installing the module
 ````
-# make install
-````
-For user wide installation run
-````
-$ make install-user
+# pip install slippinj
 ````
 
 ## Running the script
