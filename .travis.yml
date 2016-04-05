@@ -1,0 +1,9 @@
+# https://travis-ci.org/scm-spain/slippin-jimmy
+language: python
+python:
+    - 2.7.8
+    - 2.7
+
+install: pip install --user -r requirements.txt
+
+script: make test
