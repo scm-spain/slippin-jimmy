@@ -25,7 +25,6 @@ clean:
 	rm -rf build dist $(PROJECT).egg-info docs-api tmp .cache
 	find . -name "*.pyc" -exec rm -rf {} \;
 
-publish:
+publish: clean
 	python setup.py sdist
-	twine register dist/*
 	twine upload dist/*
