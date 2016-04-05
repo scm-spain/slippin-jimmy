@@ -8,6 +8,6 @@ addons:
     packages:
     - freetds-dev
 
-install: pip install -r requirements.txt
+install: pip install -r requirements-test.txt
 
 script: make test
