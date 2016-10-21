@@ -13,7 +13,7 @@ class TestScribe:
 
         Scribe(mocked_args_parser).configure()
 
-        assert 13 == mocked_args_parser.add_argument.call_count
+        assert 14 == mocked_args_parser.add_argument.call_count
 
     def test_script_is_executable_only_excel_is_generated(self):
         mocked_db = Mock()
