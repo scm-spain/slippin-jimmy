@@ -45,6 +45,11 @@ class Scribe(BasicScript):
                 'help': 'Database\'s name to get the information from'
             },
             {
+                'short': '-s',
+                'long': '--db-schema',
+                'help': 'Database\'s schema to get the information from'
+            },
+            {
                 'short': '-l',
                 'long': '--table-list',
                 'help': 'List of tables, separated by commas, to get information from'
@@ -94,7 +99,7 @@ class Scribe(BasicScript):
 
         logger.info('Getting driver instance and connecting to database')
         db = injector.get('db_factory').get_driver(injector, args.db_driver, args.db_host, args.db_user, args.db_pwd,
-                                                   db_port=args.db_port, db_name=args.db_name)
+                                                   db_port=args.db_port, db_name=args.db_name, db_schema=args.db_schema)
 
         logger.info('Getting tables information')
         tables_information = db.get_all_tables_info(args.table_list, args.where, args.max_records)
