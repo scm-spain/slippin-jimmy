@@ -35,7 +35,29 @@ class Sqlserver(object):
             'money': 'double',
             'decimal': 'double',
             'bit': 'boolean',
-            'float': 'double'
+            'float': 'double',
+            'varbinary': 'binary',
+            'char': 'string',
+            'date': 'timestamp',
+            'datetime': 'timestamp',
+            'datetime2': 'timestamp',
+            'datetimeoffset(2)': 'timestamp',
+            'image': 'string',
+            'integer': 'int',
+            'nchar': 'string',
+            'ntext': 'string',
+            'numeric': 'double',
+            'nvarchar(max)': 'double',
+            'real': 'double',
+            'smalldatetime': 'timestamp',
+            'smallmoney': 'double',
+            'text': 'string',
+            'time': 'timestamp',
+            'udt': 'binary',
+            'varbinary(max)': 'string',
+            'varchar': 'string',
+            'varchar(max)': 'string',
+            'xml': 'string'
         }
 
         self.__illegal_characters = re.compile(r'[\000-\010]|[\013-\014]|[\016-\037]')
