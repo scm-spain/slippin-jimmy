@@ -29,7 +29,7 @@ class TestExcelWriter:
                 'columns': [
                     {
                         'column_name': 'test_column',
-                        'data_type': 'test_type',
+                        'data_type_original': 'test_type',
                         'character_maximum_length': 1,
                         'is_nullable': False,
                         'column_default': 'testing'
@@ -72,7 +72,7 @@ class TestExcelWriter:
                 'columns': [
                     {
                         'column_name': 'test_column',
-                        'data_type': 'test_type',
+                        'data_type_original': 'test_type',
                         'character_maximum_length': 1,
                         'is_nullable': False,
                         'column_default': 'testing'

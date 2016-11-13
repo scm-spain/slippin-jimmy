@@ -30,7 +30,7 @@ class TestTablesConfiguration:
         }
 
         expected = {
-            'incremental': {
+            'incremental_tables': {
                 'unit': {},
                 'test': {}
             }
@@ -63,7 +63,7 @@ class TestTablesConfiguration:
         }
 
         expected = {
-            'incremental': {
+            'incremental_tables': {
                 'unit': {},
                 'test': {}
             },
@@ -101,10 +101,10 @@ class TestTablesConfiguration:
         }
 
         expected = {
-            'incremental': {
+            'incremental_tables': {
                 'unit': {}
             },
-            'others': {
+            'other_tables': {
                 'test': {}
             },
             'excluded_tables': ['test']

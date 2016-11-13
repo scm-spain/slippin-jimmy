@@ -40,7 +40,8 @@ class Postgresql(object):
             'text': 'string',
             'real': 'double',
             'numeric': 'double',
-            'json': 'string'
+            'json': 'string',
+            'USER-DEFINED': 'string'
         }
 
         self.__illegal_characters = re.compile(r'[\000-\010]|[\013-\014]|[\016-\037]')
@@ -92,6 +93,7 @@ class Postgresql(object):
 
             tables_information[row['table_name']]['columns'].append({
                 'column_name': row['column_name'],
+                'data_type_original': row['data_type'],
                 'data_type': row['data_type'] if row['data_type'] not in self.__column_types else self.__column_types[
                     row['data_type']],
                 'character_maximum_length': row['character_maximum_length'],

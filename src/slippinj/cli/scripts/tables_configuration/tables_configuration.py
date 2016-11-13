@@ -5,15 +5,15 @@ class TablesConfiguration(object):
         """
         Initialize the class
         """
-        self.INCREMENTAL_GROUP = 'incremental'
-        self.OTHERS_GROUP = 'others'
+        self.INCREMENTAL_GROUP = 'incremental_tables'
+        self.OTHER_GROUP = 'other_tables'
 
     def __get_table_group(self, columns):
         for column in columns:
             if 'timestamp' == column['data_type']:
                 return self.INCREMENTAL_GROUP
 
-        return self.OTHERS_GROUP
+        return self.OTHER_GROUP
 
     def generate_configuration(self, tables_information, injector):
         """
@@ -36,7 +36,7 @@ class TablesConfiguration(object):
                 tables_data[table_group] = {}
 
             tables_data[table_group][table] = injector.get(
-                table_group + '_table_configuration'
+                table_group + '_configuration'
             ).get_table_configuration(tables_information['tables'][table]['columns'])
 
         return tables_data

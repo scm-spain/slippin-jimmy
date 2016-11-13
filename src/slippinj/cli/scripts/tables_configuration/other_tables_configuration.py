@@ -1,7 +1,7 @@
 from .group_tables_configuration import GroupTablesConfiguration
 
 
-class OthersTableConfiguration(GroupTablesConfiguration):
+class OtherTablesConfiguration(GroupTablesConfiguration):
     """Generate the others tables configuration"""
 
     def __get_default_configuration(self):
