@@ -93,13 +93,12 @@ class WorkflowsYamlConfigurationWriter(object):
             'db_username': db_user,
             'hive_db_name': db_name,
             'hive_tmp_db_name': 'tmp_' + db_name,
-            'hdfs_deploy_folder': ''
         }
 
         if db_password:
-            common_data['db_password'] = db_password
-            common_data['db_passphrase'] = ''
-            common_data['db_salt'] = ''
+            common_data['db_password'] = ''
+            common_data['db_password_passphrase'] = ''
+            common_data['db_password_salt'] = ''
 
         tables_output = yaml.safe_dump(self.__tables_configuration.generate_configuration(tables_information, injector),
                                        default_flow_style=False, explicit_start=False, encoding='utf-8',

@@ -4,8 +4,7 @@ from mock import Mock
 
 from slippinj.databases.drivers.sqlserver import Sqlserver
 
-
-class TestScribe:
+class TestSqlserver:
     def setup_method(self, method):
         self.logger = logging.getLogger('test')
 
@@ -26,6 +25,7 @@ class TestScribe:
         columns = {
             'table_name': '',
             'column_name': 'column',
+            'data_type_original': 'string',
             'data_type': 'string',
             'character_maximum_length': '1',
             'is_nullable': 'NO',
@@ -53,6 +53,7 @@ class TestScribe:
         expected = {'tables': {'test': {'columns': [{'character_maximum_length': '1',
                                                      'column_default': '',
                                                      'column_name': 'column',
+                                                     'data_type_original': 'string',
                                                      'data_type': 'string',
                                                      'is_nullable': 'NO'}],
                                         'count': 10,
@@ -60,6 +61,7 @@ class TestScribe:
                                'unit': {'columns': [{'character_maximum_length': '1',
                                                      'column_default': '',
                                                      'column_name': 'column',
+                                                     'data_type_original': 'string',
                                                      'data_type': 'string',
                                                      'is_nullable': 'NO'}],
                                         'count': 10,
@@ -79,6 +81,7 @@ class TestScribe:
         columns = {
             'table_name': '',
             'column_name': 'column',
+            'data_type_original': 'string',
             'data_type': 'string',
             'character_maximum_length': '1',
             'is_nullable': 'NO',
@@ -107,6 +110,7 @@ class TestScribe:
             'unit': {'columns': [{'character_maximum_length': '1',
                                   'column_default': '',
                                   'column_name': 'column',
+                                  'data_type_original': 'string',
                                   'data_type': 'string',
                                   'is_nullable': 'NO'}],
                      'count': 10,

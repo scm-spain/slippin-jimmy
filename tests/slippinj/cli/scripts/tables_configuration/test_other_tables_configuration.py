@@ -1,7 +1,7 @@
-from slippinj.cli.scripts.tables_configuration.others_table_configuration import OthersTableConfiguration
+from slippinj.cli.scripts.tables_configuration.other_tables_configuration import OtherTablesConfiguration
 
 
-class TestOthersTableConfiguration:
+class TestOtherTablesConfiguration:
     def test_get_configuration_with_standard_table_structure(self):
         columns = [
             {'column_name': 'unit', 'data_type': 'string'},
@@ -21,7 +21,7 @@ class TestOthersTableConfiguration:
             }
         }
 
-        assert expected == OthersTableConfiguration().get_table_configuration(columns)
+        assert expected == OtherTablesConfiguration().get_table_configuration(columns)
 
     def test_get_configuration_with_columns_that_needs_mapping(self):
         columns = [
@@ -42,4 +42,4 @@ class TestOthersTableConfiguration:
             }
         }
 
-        assert expected == OthersTableConfiguration().get_table_configuration(columns)
+        assert expected == OtherTablesConfiguration().get_table_configuration(columns)

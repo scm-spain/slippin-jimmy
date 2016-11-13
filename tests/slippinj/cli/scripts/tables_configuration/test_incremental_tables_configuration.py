@@ -1,4 +1,4 @@
-from slippinj.cli.scripts.tables_configuration.incremental_table_configuration import IncrementalTablesConfiguration
+from slippinj.cli.scripts.tables_configuration.incremental_tables_configuration import IncrementalTablesConfiguration
 import pytest
 
 

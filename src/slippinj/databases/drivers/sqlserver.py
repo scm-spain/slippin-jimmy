@@ -57,7 +57,8 @@ class Sqlserver(object):
             'varbinary(max)': 'string',
             'varchar': 'string',
             'varchar(max)': 'string',
-            'xml': 'string'
+            'xml': 'string',
+            'tinyint': 'smallint'
         }
 
         self.__illegal_characters = re.compile(r'[\000-\010]|[\013-\014]|[\016-\037]')
@@ -100,6 +101,7 @@ class Sqlserver(object):
 
             tables_information[row['table_name']]['columns'].append({
                 'column_name': row['column_name'],
+                'data_type_original': row['data_type'],
                 'data_type': row['data_type'] if row['data_type'] not in self.__column_types else self.__column_types[
                     row['data_type']],
                 'character_maximum_length': row['character_maximum_length'],
@@ -116,7 +118,7 @@ class Sqlserver(object):
         for table in tables:
             try:
                 self.__logger.debug('Getting count for table {table}'.format(table=table))
-                info_query = 'SELECT COUNT(*) FROM {schema}.{table}'.format(table=table, schema=self.__db_schema)
+                info_query = 'SELECT COUNT(*) FROM [{schema}].[{table}]'.format(table=table, schema=self.__db_schema)
                 cursor.execute(info_query)
                 tables_information[table] = {'count': cursor.fetchone()[0]}
             except:
@@ -134,7 +136,7 @@ class Sqlserver(object):
             if top > 0:
                 try:
                     self.__logger.debug('Getting {top} rows for table {table}'.format(top=top, table=table))
-                    cursor.execute('SELECT TOP {top} * FROM {table}'.format(top=top, table=table))
+                    cursor.execute('SELECT TOP {top} * FROM [{schema}].[{table}]'.format(top=top, table=table, schema=self.__db_schema))
                     for row in cursor.fetchall():
                         table_row = []
                         for column in row:

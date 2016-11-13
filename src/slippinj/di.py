@@ -12,8 +12,8 @@ from .cli.interactive.configuration_file import ConfigurationFile
 from .cli.interactive.default_configuration import DefaultConfiguration
 from .cli.interactive.properties_file import PropertiesFile
 from .cli.objects.wf_configuration_object import WfConfigurationObject
-from .cli.scripts.tables_configuration.incremental_table_configuration import IncrementalTablesConfiguration
-from .cli.scripts.tables_configuration.others_table_configuration import OthersTableConfiguration
+from .cli.scripts.tables_configuration.incremental_tables_configuration import IncrementalTablesConfiguration
+from .cli.scripts.tables_configuration.other_tables_configuration import OtherTablesConfiguration
 from .cli.scripts.tables_configuration.tables_configuration import TablesConfiguration
 from .cli.workflow_configuration import WorkflowConfiguration
 from .databases.db_factory import DBFactory
@@ -103,5 +103,5 @@ class DatabaseDriversModule(Module):
 class TablesConfigurationModule(Module):
     def configure(self, binder):
         binder.bind('tables_configuration', to=TablesConfiguration, scope=singleton)
-        binder.bind('incremental_table_configuration', to=IncrementalTablesConfiguration, scope=singleton)
-        binder.bind('others_table_configuration', to=OthersTableConfiguration, scope=singleton)
+        binder.bind('incremental_tables_configuration', to=IncrementalTablesConfiguration, scope=singleton)
+        binder.bind('other_tables_configuration', to=OtherTablesConfiguration, scope=singleton)
