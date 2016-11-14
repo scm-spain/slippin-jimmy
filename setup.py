@@ -14,7 +14,7 @@ with open(path.join(here, 'README.rst'), encoding='utf-8') as f:
 
 setup(
     name='slippinj',
-    version='1.3.1',
+    version='1.3.2',
     author='Data Architects SCM Spain',
     author_email='data.architecture@scmspain.com',
     packages=find_packages('src'),
