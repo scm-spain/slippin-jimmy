@@ -22,7 +22,6 @@ class ExcelWriter(object):
     def __init_count_sheet(self):
 
         count_sheet = self.__workbook.create_sheet('List & Count')
-
         return count_sheet
 
     def __init_tables_sheet(self):
@@ -40,6 +39,7 @@ class ExcelWriter(object):
             try:
                 rows_sheet.append(row)
             except:
+                self.__logger.debug('PARSE ROW ERROR')
                 rows_sheet.append(['PARSE ROW ERROR'])
 
     def generate_excel_file(self, tables_information, db_name, location):

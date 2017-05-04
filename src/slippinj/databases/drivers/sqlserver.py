@@ -61,7 +61,7 @@ class Sqlserver(object):
             'tinyint': 'smallint'
         }
 
-        self.__illegal_characters = re.compile(r'[\000-\010]|[\013-\014]|[\016-\037]')
+        self.__illegal_characters = re.compile(r'[\000-\010]|[\013-\014]|[\016-\037]|[\xa1]|[\xbf]|[\xc1]|[\xc9]|[\xcd]|[\xd1]|[\xbf]|[\xda]|[\xdc]|[\xe1]|[\xf1]|[\xfa]|[\xf3]')
 
         self.__logger = logger
 
@@ -142,11 +142,11 @@ class Sqlserver(object):
                         for column in row:
                             try:
                                 if type(column) is unicode:
-                                    column = unicodedata.normalize('NFKD', column).encode('iso-8859-1', 'ignore')
+                                    column = unicodedata.normalize('NFKD', column).encode('iso-8859-1', 'replace')
                                 else:
-                                    column = str(column).decode('utf8').encode('iso-8859-1')
+                                    column = str(column).decode('utf8', 'replace').encode('iso-8859-1', 'replace')
                                     if self.__illegal_characters.search(column):
-                                        column = 'Hexadecimal'
+                                        column = re.sub(self.__illegal_characters, '?', column)
                                 if column == 'None':
                                     column = 'NULL'
                             except:

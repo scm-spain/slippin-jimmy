@@ -19,6 +19,7 @@ from .cli.workflow_configuration import WorkflowConfiguration
 from .databases.db_factory import DBFactory
 from .databases.drivers.sqlserver import Sqlserver
 from .databases.drivers.postgresql import Postgresql
+from .databases.drivers.mysql import Mysql
 from .emr.cluster import EmrCluster
 from .emr.deploy import EmrDeploy
 from .emr.job_flow.configuration import JobFlowConfigurationParser
@@ -98,6 +99,7 @@ class DatabaseDriversModule(Module):
         binder.bind('db_factory', to=DBFactory, scope=singleton)
         binder.bind('database_driver_sqlserver', to=Sqlserver, scope=singleton)
         binder.bind('database_driver_postgresql', to=Postgresql, scope=singleton)
+        binder.bind('database_driver_mysql', to=Mysql, scope=singleton)
 
 
 class TablesConfigurationModule(Module):
