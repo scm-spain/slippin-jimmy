@@ -89,15 +89,6 @@ class TestMysql:
             'column_default': ''
         }
 
-        columns = {
-            'table_name': '',
-            'column_name': 'column',
-            'data_type_original': 'string',
-            'data_type': 'string',
-            'character_maximum_length': '1',
-            'is_nullable': 'NO',
-            'column_default': ''
-        }
         tables_columns = []
         columns.update(table_name='unit')
         tables_columns.append(columns.copy())
