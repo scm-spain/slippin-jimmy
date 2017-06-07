@@ -7,7 +7,7 @@ import cx_Oracle as pyoracle
 class Oracle(object):
     """Wrapper to connect to Oracle Servers and get all the metastore information"""
 
-    @inject(orcale=AssistedBuilder(callable=pyoracle.connect), logger='logger')
+    @inject(oracle=AssistedBuilder(callable=pyoracle.connect), logger='logger')
     def __init__(self, oracle, logger, db_host=None, db_user='root', db_name=None, db_schema=None, db_pwd=None, db_port=None):
 
         super(Oracle, self).__init__()
@@ -18,23 +18,23 @@ class Oracle(object):
         self.__conn = oracle.build(user=db_user, password=db_pwd, dsn=self.__db_dsn)
 
         self.__column_types = {
-            'number': 'decimal',
-            'binary_double': 'double',
-            'binary_float': 'float',
-            'char': 'char',
-            'nchar': 'char',
-            'varchar2': 'string',
-            'nvarchar2': 'varchar',
-            'date': 'timestamp',
-            'timestamp': 'timestamp',
-            'raw': 'binary',
+            'NUMBER': 'double',
+            'BINARY_DOUBLE': 'double',
+            'BINARY_FLOAT': 'float',
+            'CHAR': 'string',
+            'NCHAR': 'string',
+            'VARCHAR2': 'string',
+            'NVARCHAR2': 'string',
+            'DATE': 'timestamp',
+            'TIMESTAMP': 'timestamp',
+            'RAW': 'binary',
         }
 
-        self.__illegal_characters = re.compile(r'[\000-\010]|[\013-\014]|[\016-\037]|[\xa1]|[\xbf]|[\xc1]|[\xc9]|[\xcd]|[\xd1]|[\xbf]|[\xda]|[\xdc]|[\xe1]|[\xf1]|[\xfa]|[\xf3]')
+        self.__illegal_characters = re.compile(r'[\000-\010]|[\013-\014]|[\016-\037]|[\xa1]|[\xc1]|[\xc9]|[\xcd]|[\xd1]|[\xbf]|[\xda]|[\xdc]|[\xe1]|[\xf1]|[\xfa]|[\xf3]')
 
         self.__logger = logger
 
-    def __makedict(cursor):
+    def __makedict(self,cursor):
         """
         Convert cx_oracle query result to be a dictionary
         """
@@ -51,37 +51,40 @@ class Oracle(object):
 
     def __get_table_list(self, table_list_query=False):
         self.__logger.debug('Getting table list')
-        query = "SELECT DISTINCT table_name FROM all_tables WHERE OWNER NOT LIKE '%SYS%' AND OWNER NOT LIKE 'APEX%' AND OWNER NOT LIKE 'XDB' "
+        query = "SELECT DISTINCT table_name FROM all_tables WHERE OWNER NOT LIKE '%SYS%' AND OWNER NOT LIKE 'APEX%' AND OWNER NOT LIKE 'XDB' {table_list_query}".format(
+                 table_list_query=' AND ' + table_list_query if table_list_query else '')
 
         cursor = self.__conn.cursor()
         cursor.execute(query)
+        cursor.rowfactory = self.__makedict(cursor)
+
+        tablelist = map(lambda x: x['TABLE_NAME'], cursor.fetchall())
         self.__logger.debug('Found {count} tables'.format(count=cursor.rowcount))
 
-        return map(lambda x: x['table_name'], cursor.fetchall())
+        return tablelist
 
     def __get_tables_to_exclude(self, tables):
         return self.__get_table_list('table_name NOT IN ({tables})'.format(tables=self.__join_tables_list(tables)))
 
     def __get_columns_for_tables(self, tables):
         self.__logger.debug('Getting columns information')
-        info_query = "SELECT table_name, column_name, data_type, data_length, nullable, data_default FROM DBA_TAB_COLS WHERE table_name IN ({tables})".format(tables=self.__join_tables_list(tables))
+        info_query = "SELECT table_name, column_name, data_type, data_length, nullable, data_default FROM DBA_TAB_COLS WHERE table_name IN ({tables}) AND ROWNUM <= 6".format(tables=self.__join_tables_list(tables))
         cursor = self.__conn.cursor()
         cursor.execute(info_query)
         cursor.rowfactory = self.__makedict(cursor)
 
         tables_information = {}
+
         for row in cursor.fetchall():
-            self.__logger.debug(
-                'Columns found for table {table}'.format(table=row['TABLE_NAME']))
+            self.__logger.debug('Columns found for table {table}'.format(table=row['TABLE_NAME']))
             if not row['TABLE_NAME'] in tables_information:
                 tables_information[row['TABLE_NAME']] = {'columns': []}
-
-            tables_information[row['TABLE_NAME']['columns']].append({
+            tables_information[row['TABLE_NAME']]['columns'].append({
                 'column_name': row['COLUMN_NAME'],
                 'data_type_original': row['DATA_TYPE'],
-                'data_type': row['DATA_TYPE'] if row['DATA_TYPE'].lower() not in self.__column_types else self.__column_types[
+                'data_type': row['DATA_TYPE'].lower() if row['DATA_TYPE'] not in self.__column_types else self.__column_types[
                     row['DATA_TYPE']],
-                'character_maximum_length': row['DATA_LENGHT'],
+                'character_maximum_length': row['DATA_LENGTH'],
                 'is_nullable': row['NULLABLE'],
                 'column_default': row['DATA_DEFAULT'],
             })
@@ -114,7 +117,8 @@ class Oracle(object):
             if top > 0:
                 try:
                     self.__logger.debug('Getting {top} rows for table {table}'.format(top=top, table=table))
-                    cursor.execute('SELECT * FROM {table} LIMIT {top}'.format(top=top, table=table))
+                    query = 'SELECT * FROM {table} WHERE ROWNUM <= {top}'.format(top=top, table=table)
+                    cursor.execute(query)
                     for row in cursor.fetchall():
                         table_row = []
                         for column in row:
@@ -174,3 +178,4 @@ class Oracle(object):
             tables_info['excluded_tables'] = tables_to_exclude
 
         return tables_info
+
