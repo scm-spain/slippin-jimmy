@@ -34,21 +34,34 @@ class Oracle(object):
 
         self.__logger = logger
 
+    def __makedict(self,cursor):
+        """
+        Convert cx_oracle query result to be a dictionary
+        """
+
+        cols = [d[0] for d in cursor.description]
+
+        def createrow(*args):
+            return dict(zip(cols, args))
+
+        return createrow
+
     def __join_tables_list(self, tables):
             return ','.join('\'%s\'' % table.upper() for table in tables)
 
     def __get_table_list(self, table_list_query=False):
         self.__logger.debug('Getting table list')
-        query = "SELECT DISTINCT table_name FROM all_tables " \
+        query = "SELECT DISTINCT table_name " \
+                "FROM all_tables " \
                 "WHERE OWNER NOT LIKE '%SYS%' " \
                 "AND OWNER NOT LIKE 'APEX%' " \
-                "AND OWNER NOT LIKE 'XDB' {table_list_query}".format(
-                 table_list_query=' AND ' + table_list_query if table_list_query else '')
+                "AND OWNER NOT LIKE 'XDB' {table_list_query}".format(table_list_query=' AND ' + table_list_query if table_list_query else '')
 
         cursor = self.__conn.cursor()
         cursor.execute(query)
+        cursor.rowfactory = self.__makedict(cursor)
 
-        tablelist = map(lambda x: x[0], cursor.fetchall())
+        tablelist = map(lambda x: x['TABLE_NAME'], cursor.fetchall())
         self.__logger.debug('Found {count} tables'.format(count=cursor.rowcount))
 
         return tablelist
@@ -64,21 +77,21 @@ class Oracle(object):
                      "AND ROWNUM <= 6".format(tables=self.__join_tables_list(tables))
         cursor = self.__conn.cursor()
         cursor.execute(info_query)
+        cursor.rowfactory = self.__makedict(cursor)
 
         tables_information = {}
-
         for row in cursor.fetchall():
-            self.__logger.debug('Columns found for table {table}'.format(table=row[0]))
-            if not row[0] in tables_information:
-                tables_information[row[0]] = {'columns': []}
-            tables_information[row[0]]['columns'].append({
-                'column_name': row[1],
-                'data_type_original': row[2],
-                'data_type': row[2].lower() if row[2] not in self.__column_types else self.__column_types[
-                    row[2]],
-                'character_maximum_length': row[3],
-                'is_nullable': row[4],
-                'column_default': row[5],
+            self.__logger.debug('Columns found for table {table}'.format(table=row['TABLE_NAME']))
+            if not row['TABLE_NAME'] in tables_information:
+                tables_information[row['TABLE_NAME']] = {'columns': []}
+            tables_information[row['TABLE_NAME']]['columns'].append({
+                'column_name': row['COLUMN_NAME'],
+                'data_type_original': row['DATA_TYPE'],
+                'data_type': row['DATA_TYPE'].lower() if row['DATA_TYPE'] not in self.__column_types else self.__column_types[
+                    row['DATA_TYPE']],
+                'character_maximum_length': row['DATA_LENGTH'],
+                'is_nullable': row['NULLABLE'],
+                'column_default': row['DATA_DEFAULT'],
             })
 
         return tables_information

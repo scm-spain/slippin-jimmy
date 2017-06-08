@@ -1,5 +1,5 @@
 import logging
-from mock import Mock
+from mock import Mock, patch
 from slippinj.databases.drivers.oracle import Oracle
 
 
@@ -13,27 +13,31 @@ class TestOracle:
     def teardown_method(self,method):
         self.logger = None
 
-    def test_get_tables_info_when_no_table_list_is_provided(self):
+    @patch.object(Oracle, '_Oracle__makedict')
+    def test_get_tables_info_when_no_table_list_is_provided(self,__makedict):
+
+        __makedict.return_value = None
+
         mocked_table_list_query_cursor = Mock()
         mocked_table_list_query_cursor.execute = Mock(return_value=True)
-        mocked_table_list_query_cursor.fetchall = Mock(return_value=[{0: 'unit'}, {0: 'test'}])
+        mocked_table_list_query_cursor.fetchall = Mock(return_value=[{'TABLE_NAME': 'unit'}, {'TABLE_NAME': 'test'}])
 
         mocked_table_count_query_cursor = Mock()
         mocked_table_count_query_cursor.execute = Mock(return_value=True)
         mocked_table_count_query_cursor.fetchone = Mock(return_value=[10])
 
         columns = {
-            0: '',
-            1: 'column',
-            2: 'string',
-            3: '1',
-            4: 'N',
-            5: '',
+            'TABLE_NAME': '',
+            'COLUMN_NAME': 'column',
+            'DATA_TYPE': 'string',
+            'DATA_LENGTH': '1',
+            'NULLABLE': 'N',
+            'DATA_DEFAULT': ''
         }
         tables_columns = []
-        columns[0] = 'unit'
+        columns.update(TABLE_NAME='unit')
         tables_columns.append(columns.copy())
-        columns[0] = 'test'
+        columns.update(TABLE_NAME='test')
         tables_columns.append(columns.copy())
         mocked_table_columns_query_cursor = Mock()
         mocked_table_columns_query_cursor.execute = Mock(return_value=True)
@@ -68,27 +72,28 @@ class TestOracle:
 
         assert expected == Oracle(mocked_builder, self.logger).get_all_tables_info(None, None, None)
 
-    def test_get_tables_info_when_table_list_has_been_provided(self):
+    @patch.object(Oracle, '_Oracle__makedict')
+    def test_get_tables_info_when_table_list_has_been_provided(self, __makedict):
+        __makedict.return_value = None
         mocked_table_list_query_cursor = Mock()
         mocked_table_list_query_cursor.execute = Mock(return_value=True)
-        mocked_table_list_query_cursor.fetchall = Mock(return_value=[{0: 'test'}])
-
+        mocked_table_list_query_cursor.fetchall = Mock(return_value=[{'TABLE_NAME': 'test'}])
         mocked_table_count_query_cursor = Mock()
         mocked_table_count_query_cursor.execute = Mock(return_value=True)
         mocked_table_count_query_cursor.fetchone = Mock(return_value=[10])
 
         columns = {
-            0: '',
-            1: 'column',
-            2: 'string',
-            3: '1',
-            4: 'N',
-            5: '',
+            'TABLE_NAME': '',
+            'COLUMN_NAME': 'column',
+            'DATA_TYPE': 'string',
+            'DATA_LENGTH': '1',
+            'NULLABLE': 'N',
+            'DATA_DEFAULT': ''
         }
         tables_columns = []
-        columns[0] = 'unit'
+        columns.update(TABLE_NAME='unit')
         tables_columns.append(columns.copy())
-        columns[0] = 'test'
+        columns.update(TABLE_NAME='test')
         tables_columns.append(columns.copy())
         mocked_table_columns_query_cursor = Mock()
         mocked_table_columns_query_cursor.execute = Mock(return_value=True)
