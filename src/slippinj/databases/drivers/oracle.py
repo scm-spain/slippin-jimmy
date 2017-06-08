@@ -164,7 +164,7 @@ class Oracle(object):
         tables_to_exclude = {}
 
         if table_list:
-            tables = map(lambda x: unicode(x.upper()), table_list.split(','))
+            tables = map(lambda x: unicode(x), table_list.split(','))
             tables_to_exclude = self.__get_tables_to_exclude(tables)
         else:
             tables = self.__get_table_list(table_list_query)
