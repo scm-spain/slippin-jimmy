@@ -47,7 +47,7 @@ class Oracle(object):
         return createrow
 
     def __join_tables_list(self, tables):
-            return ','.join('\'%s\'' % table.upper() for table in tables)
+            return ','.join('\'%s\'' % table for table in tables)
 
     def __get_table_list(self, table_list_query=False):
         self.__logger.debug('Getting table list')
@@ -72,9 +72,10 @@ class Oracle(object):
     def __get_columns_for_tables(self, tables):
         self.__logger.debug('Getting columns information')
         info_query = "SELECT table_name, column_name, data_type, data_length, nullable, data_default " \
-                     "FROM DBA_TAB_COLS " \
+                     "FROM ALL_TAB_COLS " \
                      "WHERE table_name IN ({tables}) " \
-                     "AND ROWNUM <= 6".format(tables=self.__join_tables_list(tables))
+                     "ORDER BY COLUMN_ID".format(tables=self.__join_tables_list(tables))
+
         cursor = self.__conn.cursor()
         cursor.execute(info_query)
         cursor.rowfactory = self.__makedict(cursor)
@@ -122,7 +123,7 @@ class Oracle(object):
             if top > 0:
                 try:
                     self.__logger.debug('Getting {top} rows for table {table}'.format(top=top, table=table))
-                    query = 'SELECT * FROM {table} WHERE ROWNUM <= {top}'.format(top=top, table=table)
+                    query = 'SELECT * FROM {table} WHERE ROWNUM < {top}'.format(top=top, table=table)
                     cursor.execute(query)
                     for row in cursor.fetchall():
                         table_row = []
@@ -163,7 +164,7 @@ class Oracle(object):
         tables_to_exclude = {}
 
         if table_list:
-            tables = map(lambda x: unicode(x), table_list.split(','))
+            tables = map(lambda x: unicode(x.upper()), table_list.split(','))
             tables_to_exclude = self.__get_tables_to_exclude(tables)
         else:
             tables = self.__get_table_list(table_list_query)
@@ -171,7 +172,6 @@ class Oracle(object):
         tables_counts = self.__get_count_for_tables(tables)
         tables_columns = self.__get_columns_for_tables(tables)
         tables_top = self.__get_top_for_tables(tables, top_max)
-
         tables_info = {'tables': {}}
         for table in tables_counts:
             tables_info['tables'][table] = {}
