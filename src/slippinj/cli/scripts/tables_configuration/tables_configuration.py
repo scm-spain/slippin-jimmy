@@ -1,3 +1,5 @@
+import re
+
 class TablesConfiguration(object):
     """Generate the tables configuration"""
 
@@ -14,6 +16,10 @@ class TablesConfiguration(object):
                 return self.INCREMENTAL_GROUP
 
         return self.OTHER_GROUP
+
+    def __get_valid_table_name(self, table_name):
+        return re.sub("[^a-zA-Z0-9]", "", table_name)
+
 
     def generate_configuration(self, tables_information, injector):
         """
@@ -38,5 +44,11 @@ class TablesConfiguration(object):
             tables_data[table_group][table] = injector.get(
                 table_group + '_configuration'
             ).get_table_configuration(tables_information['tables'][table]['columns'])
+
+            valid_table_name = self.__get_valid_table_name(table)
+            tables_data[table_group][valid_table_name] = tables_data[table_group].pop(table)
+
+            if (valid_table_name != table):
+              tables_data[table_group][valid_table_name]['source_table_name'] = table
 
         return tables_data

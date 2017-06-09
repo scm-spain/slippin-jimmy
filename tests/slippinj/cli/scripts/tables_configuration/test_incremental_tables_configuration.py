@@ -5,8 +5,8 @@ import pytest
 class TestIncrementalTablesConfiguration:
     def test_get_configuration_with_standard_table_structure(self):
         columns = [
-            {'column_name': 'unit', 'data_type': 'timestamp'},
-            {'column_name': 'test', 'data_type': 'string'}
+            {'column_name': 'unit', 'source_column_name': 'unit', 'data_type': 'timestamp'},
+            {'column_name': 'test', 'source_column_name': 'test', 'data_type': 'string'}
         ]
 
         expected = {
@@ -29,9 +29,9 @@ class TestIncrementalTablesConfiguration:
 
     def test_get_configuration_with_two_timestamp_columns_defined(self):
         columns = [
-            {'column_name': 'timestamp_column_1', 'data_type': 'timestamp'},
-            {'column_name': 'timestamp_column_2', 'data_type': 'timestamp'},
-            {'column_name': 'test', 'data_type': 'string'}
+            {'column_name': 'timestamp_column_1', 'source_column_name': 'timestamp_column_1', 'data_type': 'timestamp'},
+            {'column_name': 'timestamp_column_2', 'source_column_name': 'timestamp_column_2','data_type': 'timestamp'},
+            {'column_name': 'test', 'source_column_name': 'test', 'data_type': 'string'}
         ]
 
         expected = {
@@ -55,12 +55,12 @@ class TestIncrementalTablesConfiguration:
 
     def test_get_configuration_without_timestamp_column_defined(self):
         columns = [
-            {'column_name': 'unit', 'data_type': 'string'},
-            {'column_name': 'test', 'data_type': 'string'}
+            {'column_name': 'unit', 'source_column_name': 'unit', 'data_type': 'string'},
+            {'column_name': 'test', 'source_column_name': 'test', 'data_type': 'string'}
         ]
 
         with pytest.raises(ValueError) as value_error:
             IncrementalTablesConfiguration().get_table_configuration(columns)
 
-        assert 'Given table can\'t be imported as incremental because not timestamp column has been found' == str(
+        assert 'Given table can\'t be imported as incremental because no timestamp column has been found' == str(
             value_error.value)

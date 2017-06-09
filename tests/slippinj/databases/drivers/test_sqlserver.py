@@ -24,8 +24,9 @@ class TestSqlserver:
 
         columns = {
             'table_name': '',
+            'source_column_name': 'column',
             'column_name': 'column',
-            'data_type_original': 'string',
+            'source_data_type': 'string',
             'data_type': 'string',
             'character_maximum_length': '1',
             'is_nullable': 'NO',
@@ -52,16 +53,18 @@ class TestSqlserver:
 
         expected = {'tables': {'test': {'columns': [{'character_maximum_length': '1',
                                                      'column_default': '',
+                                                     'source_column_name': 'column',
                                                      'column_name': 'column',
-                                                     'data_type_original': 'string',
+                                                     'source_data_type': 'string',
                                                      'data_type': 'string',
                                                      'is_nullable': 'NO'}],
                                         'count': 10,
                                         'rows': []},
                                'unit': {'columns': [{'character_maximum_length': '1',
                                                      'column_default': '',
+                                                     'source_column_name': 'column',
                                                      'column_name': 'column',
-                                                     'data_type_original': 'string',
+                                                     'source_data_type': 'string',
                                                      'data_type': 'string',
                                                      'is_nullable': 'NO'}],
                                         'count': 10,
@@ -80,8 +83,9 @@ class TestSqlserver:
 
         columns = {
             'table_name': '',
+            'source_column_name': 'column',
             'column_name': 'column',
-            'data_type_original': 'string',
+            'source_data_type': 'string',
             'data_type': 'string',
             'character_maximum_length': '1',
             'is_nullable': 'NO',
@@ -109,8 +113,9 @@ class TestSqlserver:
         expected = {'excluded_tables': ['test'], 'tables': {
             'unit': {'columns': [{'character_maximum_length': '1',
                                   'column_default': '',
+                                  'source_column_name': 'column',
                                   'column_name': 'column',
-                                  'data_type_original': 'string',
+                                  'source_data_type': 'string',
                                   'data_type': 'string',
                                   'is_nullable': 'NO'}],
                      'count': 10,
