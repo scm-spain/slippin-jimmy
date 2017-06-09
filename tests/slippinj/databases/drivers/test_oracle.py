@@ -1,10 +1,9 @@
 import logging
+from mock import Mock, patch
+from slippinj.databases.drivers.oracle import Oracle
 
-from mock import Mock
-from slippinj.databases.drivers.mysql import Mysql
 
-
-class TestMysql:
+class TestOracle:
 
     def setup_method(self, method):
         self.logger = logging.getLogger('test')
@@ -14,28 +13,31 @@ class TestMysql:
     def teardown_method(self,method):
         self.logger = None
 
-    def test_get_tables_info_when_no_table_list_is_provided(self):
+    @patch.object(Oracle, '_Oracle__makedict')
+    def test_get_tables_info_when_no_table_list_is_provided(self,__makedict):
+
+        __makedict.return_value = None
+
         mocked_table_list_query_cursor = Mock()
         mocked_table_list_query_cursor.execute = Mock(return_value=True)
-        mocked_table_list_query_cursor.fetchall = Mock(return_value=[{'table_name': 'unit'}, {'table_name': 'test'}])
+        mocked_table_list_query_cursor.fetchall = Mock(return_value=[{'TABLE_NAME': 'unit'}, {'TABLE_NAME': 'test'}])
 
         mocked_table_count_query_cursor = Mock()
         mocked_table_count_query_cursor.execute = Mock(return_value=True)
         mocked_table_count_query_cursor.fetchone = Mock(return_value=[10])
 
         columns = {
-            'table_name': '',
-            'column_name': 'column',
-            'data_type_original': 'string',
-            'data_type': 'string',
-            'character_maximum_length': '1',
-            'is_nullable': 'NO',
-            'column_default': ''
+            'TABLE_NAME': '',
+            'COLUMN_NAME': 'column',
+            'DATA_TYPE': 'string',
+            'DATA_LENGTH': '1',
+            'NULLABLE': 'N',
+            'DATA_DEFAULT': ''
         }
         tables_columns = []
-        columns.update(table_name='unit')
+        columns.update(TABLE_NAME='unit')
         tables_columns.append(columns.copy())
-        columns.update(table_name='test')
+        columns.update(TABLE_NAME='test')
         tables_columns.append(columns.copy())
         mocked_table_columns_query_cursor = Mock()
         mocked_table_columns_query_cursor.execute = Mock(return_value=True)
@@ -45,18 +47,18 @@ class TestMysql:
         mocked_table_top_query_cursor.execute = Mock(return_value=True)
         mocked_table_top_query_cursor.fetchall = Mock(return_value=[])
 
-        mocked_mysql = Mock()
-        mocked_mysql.cursor = Mock(side_effect=[mocked_table_list_query_cursor, mocked_table_count_query_cursor,
+        mocked_oracle = Mock()
+        mocked_oracle.cursor = Mock(side_effect=[mocked_table_list_query_cursor, mocked_table_count_query_cursor,
                                                 mocked_table_columns_query_cursor, mocked_table_top_query_cursor])
         mocked_builder = Mock()
-        mocked_builder.build = Mock(return_value=mocked_mysql)
+        mocked_builder.build = Mock(return_value=mocked_oracle)
 
         expected = {'tables': {'test': {'columns': [{'character_maximum_length': '1',
                                                      'column_default': '',
                                                      'column_name': 'column',
                                                      'data_type_original': 'string',
                                                      'data_type': 'string',
-                                                     'is_nullable': 'NO'}],
+                                                     'is_nullable': 'N'}],
                                         'count': 10,
                                         'rows': []},
                                'unit': {'columns': [{'character_maximum_length': '1',
@@ -64,35 +66,34 @@ class TestMysql:
                                                      'column_name': 'column',
                                                      'data_type_original': 'string',
                                                      'data_type': 'string',
-                                                     'is_nullable': 'NO'}],
+                                                     'is_nullable': 'N'}],
                                         'count': 10,
                                         'rows': []}}}
 
-        assert expected == Mysql(mocked_builder, self.logger).get_all_tables_info(None, None, None)
+        assert expected == Oracle(mocked_builder, self.logger).get_all_tables_info(None, None, None)
 
-    def test_get_tables_info_when_table_list_has_been_provided(self):
+    @patch.object(Oracle, '_Oracle__makedict')
+    def test_get_tables_info_when_table_list_has_been_provided(self, __makedict):
+        __makedict.return_value = None
         mocked_table_list_query_cursor = Mock()
         mocked_table_list_query_cursor.execute = Mock(return_value=True)
-        mocked_table_list_query_cursor.fetchall = Mock(return_value=[{'table_name': 'test'}])
-
+        mocked_table_list_query_cursor.fetchall = Mock(return_value=[{'TABLE_NAME': 'test'}])
         mocked_table_count_query_cursor = Mock()
         mocked_table_count_query_cursor.execute = Mock(return_value=True)
         mocked_table_count_query_cursor.fetchone = Mock(return_value=[10])
 
         columns = {
-            'table_name': '',
-            'column_name': 'column',
-            'data_type_original': 'string',
-            'data_type': 'string',
-            'character_maximum_length': '1',
-            'is_nullable': 'NO',
-            'column_default': ''
+            'TABLE_NAME': '',
+            'COLUMN_NAME': 'column',
+            'DATA_TYPE': 'string',
+            'DATA_LENGTH': '1',
+            'NULLABLE': 'N',
+            'DATA_DEFAULT': ''
         }
-
         tables_columns = []
-        columns.update(table_name='unit')
+        columns.update(TABLE_NAME='unit')
         tables_columns.append(columns.copy())
-        columns.update(table_name='test')
+        columns.update(TABLE_NAME='test')
         tables_columns.append(columns.copy())
         mocked_table_columns_query_cursor = Mock()
         mocked_table_columns_query_cursor.execute = Mock(return_value=True)
@@ -102,11 +103,10 @@ class TestMysql:
         mocked_table_top_query_cursor.execute = Mock(return_value=True)
         mocked_table_top_query_cursor.fetchall = Mock(return_value=[])
 
-        mocked_mysql = Mock()
-        mocked_mysql.cursor = Mock(side_effect=[mocked_table_list_query_cursor, mocked_table_count_query_cursor,
-                                   mocked_table_columns_query_cursor, mocked_table_top_query_cursor])
+        mocked_oracle = Mock()
+        mocked_oracle.cursor = Mock(side_effect=[mocked_table_list_query_cursor, mocked_table_count_query_cursor, mocked_table_columns_query_cursor, mocked_table_top_query_cursor])
         mocked_builder = Mock()
-        mocked_builder.build = Mock(return_value=mocked_mysql)
+        mocked_builder.build = Mock(return_value=mocked_oracle)
 
         expected = {'excluded_tables': ['test'], 'tables': {
             'unit': {'columns': [{'character_maximum_length': '1',
@@ -114,9 +114,8 @@ class TestMysql:
                                   'column_name': 'column',
                                   'data_type_original': 'string',
                                   'data_type': 'string',
-                                  'is_nullable': 'NO'}],
+                                  'is_nullable': 'N'}],
                      'count': 10,
                      'rows': []}}}
 
-        assert expected == Mysql(mocked_builder, self.logger).get_all_tables_info('unit', None, None)
-
+        assert expected == Oracle(mocked_builder, self.logger).get_all_tables_info('unit', None, None)
