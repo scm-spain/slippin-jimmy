@@ -15,7 +15,7 @@ Installing the module
     # pip install slippinj
 
 
-About the dependencies, cx_Oracle is a Python extension module,
+About the dependencies, cx_Oracle is a Python extension module
 that enables Slippin Jimmy Scribe access to Oracle Database.
 This module is currently built against Oracle Client 11.2, 12.1 and 12.2,
 and is required for its operation to install the Oracle Instanclient.
