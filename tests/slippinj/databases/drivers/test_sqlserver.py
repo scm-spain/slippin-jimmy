@@ -24,9 +24,7 @@ class TestSqlserver:
 
         columns = {
             'table_name': '',
-            'source_column_name': 'column',
             'column_name': 'column',
-            'source_data_type': 'string',
             'data_type': 'string',
             'character_maximum_length': '1',
             'is_nullable': 'NO',
