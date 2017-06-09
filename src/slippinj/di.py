@@ -20,6 +20,7 @@ from .databases.db_factory import DBFactory
 from .databases.drivers.sqlserver import Sqlserver
 from .databases.drivers.postgresql import Postgresql
 from .databases.drivers.mysql import Mysql
+from .databases.drivers.oracle import Oracle
 from .emr.cluster import EmrCluster
 from .emr.deploy import EmrDeploy
 from .emr.job_flow.configuration import JobFlowConfigurationParser
@@ -90,7 +91,6 @@ class AwsClientModule(Module):
     def aws_emr_client(self):
         aws_profile = 'default' if False == self._profile else self._profile
         aws_session = Session(profile_name=aws_profile)
-
         return aws_session.client('emr')
 
 
@@ -100,6 +100,7 @@ class DatabaseDriversModule(Module):
         binder.bind('database_driver_sqlserver', to=Sqlserver, scope=singleton)
         binder.bind('database_driver_postgresql', to=Postgresql, scope=singleton)
         binder.bind('database_driver_mysql', to=Mysql, scope=singleton)
+        binder.bind('database_driver_oracle', to=Oracle, scope=singleton)
 
 
 class TablesConfigurationModule(Module):

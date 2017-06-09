@@ -8,3 +8,4 @@ pymssql>=2.1.2
 psycopg2>=2.6.2
 pyyaml>=3.11
 pymysql>=0.7.11
+cx_Oracle>=6.0b2
