@@ -28,8 +28,8 @@ class TestExcelWriter:
                 'count': 1,
                 'columns': [
                     {
-                        'column_name': 'test_column',
-                        'data_type_original': 'test_type',
+                        'source_column_name': 'test_column',
+                        'source_data_type': 'test_type',
                         'character_maximum_length': 1,
                         'is_nullable': False,
                         'column_default': 'testing'
@@ -71,8 +71,8 @@ class TestExcelWriter:
                 'count': 1,
                 'columns': [
                     {
-                        'column_name': 'test_column',
-                        'data_type_original': 'test_type',
+                        'source_column_name': 'test_column',
+                        'source_data_type': 'test_type',
                         'character_maximum_length': 1,
                         'is_nullable': False,
                         'column_default': 'testing'

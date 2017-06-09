@@ -102,9 +102,9 @@ class WorkflowsYamlConfigurationWriter(object):
 
         tables_output = yaml.safe_dump(self.__tables_configuration.generate_configuration(tables_information, injector),
                                        default_flow_style=False, explicit_start=False, encoding='utf-8',
-                                       allow_unicode=True)
+                                       allow_unicode=True, width=float("inf"))
         common_output = yaml.safe_dump(common_data, default_flow_style=False, explicit_start=False, encoding='utf-8',
-                                       allow_unicode=True)
+                                       allow_unicode=True, width=float("inf"))
 
         location = os.getcwd() if None == location else location
 

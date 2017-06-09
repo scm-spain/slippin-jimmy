@@ -3,7 +3,6 @@ import logging
 from mock import Mock
 from slippinj.databases.drivers.mysql import Mysql
 
-
 class TestMysql:
 
     def setup_method(self, method):
@@ -26,7 +25,6 @@ class TestMysql:
         columns = {
             'table_name': '',
             'column_name': 'column',
-            'data_type_original': 'string',
             'data_type': 'string',
             'character_maximum_length': '1',
             'is_nullable': 'NO',
@@ -53,16 +51,18 @@ class TestMysql:
 
         expected = {'tables': {'test': {'columns': [{'character_maximum_length': '1',
                                                      'column_default': '',
+                                                     'source_column_name': 'column',
                                                      'column_name': 'column',
-                                                     'data_type_original': 'string',
+                                                     'source_data_type': 'string',
                                                      'data_type': 'string',
                                                      'is_nullable': 'NO'}],
                                         'count': 10,
                                         'rows': []},
                                'unit': {'columns': [{'character_maximum_length': '1',
                                                      'column_default': '',
+                                                     'source_column_name': 'column',
                                                      'column_name': 'column',
-                                                     'data_type_original': 'string',
+                                                     'source_data_type': 'string',
                                                      'data_type': 'string',
                                                      'is_nullable': 'NO'}],
                                         'count': 10,
@@ -81,8 +81,9 @@ class TestMysql:
 
         columns = {
             'table_name': '',
+            'source_column_name': 'column',
             'column_name': 'column',
-            'data_type_original': 'string',
+            'source_data_type': 'string',
             'data_type': 'string',
             'character_maximum_length': '1',
             'is_nullable': 'NO',
@@ -111,12 +112,12 @@ class TestMysql:
         expected = {'excluded_tables': ['test'], 'tables': {
             'unit': {'columns': [{'character_maximum_length': '1',
                                   'column_default': '',
+                                  'source_column_name': 'column',
                                   'column_name': 'column',
-                                  'data_type_original': 'string',
+                                  'source_data_type': 'string',
                                   'data_type': 'string',
                                   'is_nullable': 'NO'}],
                      'count': 10,
                      'rows': []}}}
 
         assert expected == Mysql(mocked_builder, self.logger).get_all_tables_info('unit', None, None)
-

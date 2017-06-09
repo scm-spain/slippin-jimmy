@@ -39,6 +39,9 @@ class Filesystem(object):
         """
         self.mkdir(output_file)
 
+        if isinstance(content,unicode):
+            content = content.encode('utf-8')
+
         self.__logger.debug('Writing content into {output_file}'.format(output_file=output_file))
         f = open(output_file, 'w')
         f.write(content)

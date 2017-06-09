@@ -70,6 +70,9 @@ class Mysql(object):
     def __join_tables_list(self, tables):
         return ','.join('\'%s\'' % table for table in tables)
 
+    def __get_valid_column_name(self, column_name):
+        return re.sub("[ ,;{}()\n\t=]", "", column_name)
+
     def __get_table_list(self, table_list_query=False):
         self.__logger.debug('Getting table list')
         query = 'SELECT table_name FROM information_schema.tables WHERE table_schema = %(schema)s {table_list_query}'.format(
@@ -102,8 +105,9 @@ class Mysql(object):
                 tables_information[row['table_name']] = {'columns': []}
 
             tables_information[row['table_name']]['columns'].append({
-                'column_name': row['column_name'],
-                'data_type_original': row['data_type'],
+                'source_column_name': row['column_name'],
+                'column_name': self.__get_valid_column_name(row['column_name']),
+                'source_data_type': row['data_type'],
                 'data_type': row['data_type'] if row['data_type'] not in self.__column_types else self.__column_types[
                     row['data_type']],
                 'character_maximum_length': row['character_maximum_length'],

@@ -49,6 +49,9 @@ class Oracle(object):
     def __join_tables_list(self, tables):
             return ','.join('\'%s\'' % table for table in tables)
 
+    def __get_valid_column_name(self, column_name):
+        return re.sub("[ ,;{}()\n\t=]", "", column_name)
+
     def __get_table_list(self, table_list_query=False):
         self.__logger.debug('Getting table list')
         query = "SELECT DISTINCT table_name " \
@@ -86,8 +89,9 @@ class Oracle(object):
             if not row['TABLE_NAME'] in tables_information:
                 tables_information[row['TABLE_NAME']] = {'columns': []}
             tables_information[row['TABLE_NAME']]['columns'].append({
-                'column_name': row['COLUMN_NAME'],
-                'data_type_original': row['DATA_TYPE'],
+                'source_column_name': row['COLUMN_NAME'],
+                'column_name': self.__get_valid_column_name(row['COLUMN_NAME']),
+                'source_data_type': row['DATA_TYPE'],
                 'data_type': row['DATA_TYPE'].lower() if row['DATA_TYPE'] not in self.__column_types else self.__column_types[
                     row['DATA_TYPE']],
                 'character_maximum_length': row['DATA_LENGTH'],

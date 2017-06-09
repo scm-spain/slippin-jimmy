@@ -30,12 +30,12 @@ class IncrementalTablesConfiguration(GroupTablesConfiguration):
         map_column_hive_fields_list = []
         for column in columns:
             if column['data_type'] == 'timestamp' and not table_configuration['sqoop_options']['split-by']:
-                table_configuration['sqoop_options']['split-by'] = column['column_name']
-                table_configuration['column_definition']['column_split'] = column['column_name']
-                table_configuration['sqoop_options']['where'] = column['column_name'] + ' = \'${initDate}\''
+                table_configuration['sqoop_options']['split-by'] = column['source_column_name']
+                table_configuration['column_definition']['column_split'] = column['source_column_name']
+                table_configuration['sqoop_options']['where'] = column['source_column_name'] + ' = \'${initDate}\''
 
             if self._is_mapping_needed(column['data_type']):
-                map_column_hive_fields_list.append(column['column_name'] + '=' + column['data_type'])
+                map_column_hive_fields_list.append(column['source_column_name'] + '=' + column['data_type'])
 
             table_columns.append(self._get_column_definition(column))
 
@@ -44,6 +44,6 @@ class IncrementalTablesConfiguration(GroupTablesConfiguration):
 
         if not table_configuration['sqoop_options']['split-by']:
             raise ValueError(
-                'Given table can\'t be imported as incremental because not timestamp column has been found')
+                'Given table can\'t be imported as incremental because no timestamp column has been found')
 
         return table_configuration

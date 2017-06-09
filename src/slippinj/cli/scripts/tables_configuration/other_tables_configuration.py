@@ -27,7 +27,7 @@ class OtherTablesConfiguration(GroupTablesConfiguration):
         map_column_hive_fields_list = []
         for column in columns:
             if self._is_mapping_needed(column['data_type']):
-                map_column_hive_fields_list.append(column['column_name'] + '=' + column['data_type'])
+                map_column_hive_fields_list.append(column['source_column_name'] + '=' + column['data_type'])
 
             table_columns.append(self._get_column_definition(column))
 
