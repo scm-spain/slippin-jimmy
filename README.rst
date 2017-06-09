@@ -64,7 +64,7 @@ You can see how to install it at:
 http://www.oracle.com/technetwork/database/features/instant-client/index-097480.html
 or
 https://anaconda.org/anaconda/oracle-instantclient
-for conda enviroment users
+for conda enviroment users.
 
 
 
