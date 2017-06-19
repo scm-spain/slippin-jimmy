@@ -79,7 +79,7 @@ class Mysql(object):
                  table_list_query=' AND ' + table_list_query if table_list_query else '')
 
         cursor = self.__conn.cursor(pymysql.cursors.DictCursor)
-        cursor.execute(query, {'db_name': self.__db_name, 'schema': self.__db_schema})
+        cursor.execute(query, {'db_name': self.__db_name, 'schema': self.__db_name})
 
         self.__logger.debug('Found {count} tables'.format(count=cursor.rowcount))
 
@@ -95,7 +95,7 @@ class Mysql(object):
                      'column_default FROM information_schema.columns WHERE table_name IN ({tables}) AND table_schema=%(schema)s'.format(tables=self.__join_tables_list(tables))
 
         cursor = self.__conn.cursor(pymysql.cursors.DictCursor)
-        cursor.execute(info_query, {'db_name': self.__db_name, 'schema': self.__db_schema})
+        cursor.execute(info_query, {'db_name': self.__db_name, 'schema': self.__db_name})
 
         tables_information = {}
         for row in cursor.fetchall():
@@ -124,7 +124,7 @@ class Mysql(object):
         for table in tables:
             try:
                 self.__logger.debug('Getting count for table {table}'.format(table=table))
-                info_query = 'SELECT COUNT(*) FROM {schema}.{table}'.format(table=table, schema=self.__db_schema)
+                info_query = 'SELECT COUNT(*) FROM {schema}.{table}'.format(table=table, schema=self.__db_name)
                 cursor.execute(info_query)
                 tables_information[table] = {'count': cursor.fetchone()[0]}
             except:
@@ -143,7 +143,7 @@ class Mysql(object):
             if top > 0:
                 try:
                     self.__logger.debug('Getting {top} rows for table {table}'.format(top=top, table=table))
-                    cursor.execute('SELECT * FROM {schema}.{table} LIMIT {top}'.format(top=top, table=table, schema=self.__db_schema))
+                    cursor.execute('SELECT * FROM {schema}.{table} LIMIT {top}'.format(top=top, table=table, schema=self.__db_name))
 
                     for row in cursor.fetchall():
                         table_row = []
