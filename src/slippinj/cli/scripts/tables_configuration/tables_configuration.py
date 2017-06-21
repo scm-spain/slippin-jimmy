@@ -18,7 +18,7 @@ class TablesConfiguration(object):
         return self.OTHER_GROUP
 
     def __get_valid_table_name(self, table_name):
-        return re.sub("[^a-zA-Z0-9]", "", table_name)
+        return re.sub("[^a-zA-Z0-9_]", "", table_name)
 
 
     def generate_configuration(self, tables_information, injector):
