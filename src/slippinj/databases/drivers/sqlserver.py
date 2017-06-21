@@ -25,7 +25,7 @@ class Sqlserver(object):
 
         self.__db_name = db_name
         self.__db_schema = db_schema if None != db_schema else 'dbo'
-        self.__conn = mssql.build(server=db_host, user=db_user, password=db_pwd, database=db_name,
+        self.__conn = mssql.build(server=db_host, user=db_user, password=db_pwd, database=db_name, tds_version='7.0',
                                   port=db_port if None != db_port else 1433)
 
         self.__column_types = {
