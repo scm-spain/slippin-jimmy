@@ -14,8 +14,12 @@ class Oracle(object):
 
         self.__db_name = db_name
         self.__db_user = db_user
+        self.__db_schema = db_schema
         self.__db_dsn = pyoracle.makedsn(host=db_host, port=int(db_port) if None != db_port else 1521, service_name=db_name)
         self.__conn = oracle.build(user=db_user, password=db_pwd, dsn=self.__db_dsn)
+        if self.__db_schema is not None:
+            cursor = self.__conn.cursor()
+            cursor.execute("ALTER SESSION SET CURRENT_SCHEMA = {schema}".format(schema=self.__db_schema))
 
         self.__column_types = {
             'NUMBER': 'double',
@@ -54,11 +58,10 @@ class Oracle(object):
 
     def __get_table_list(self, table_list_query=False):
         self.__logger.debug('Getting table list')
+        query_with_db_schema = "= '{schema}'".format(schema=self.__db_schema)
         query = "SELECT DISTINCT table_name " \
-                "FROM all_tables " \
-                "WHERE OWNER NOT LIKE '%SYS%' " \
-                "AND OWNER NOT LIKE 'APEX%' " \
-                "AND OWNER NOT LIKE 'XDB' {table_list_query}".format(table_list_query=' AND ' + table_list_query if table_list_query else '')
+                "FROM all_tables WHERE OWNER " \
+                "{owner} {table_list_query}".format(owner=query_with_db_schema if self.__db_schema else "NOT LIKE '%SYS%' AND OWNER NOT LIKE 'APEX%'AND OWNER NOT LIKE 'XDB'" ,table_list_query=' AND ' + table_list_query if table_list_query else '')
 
         cursor = self.__conn.cursor()
         cursor.execute(query)
@@ -74,10 +77,13 @@ class Oracle(object):
 
     def __get_columns_for_tables(self, tables):
         self.__logger.debug('Getting columns information')
+
+        query_with_owner = "AND owner = '{schema}'".format(schema=self.__db_schema)
         info_query = "SELECT table_name, column_name, data_type, data_length, nullable, data_default " \
                      "FROM ALL_TAB_COLS " \
                      "WHERE table_name IN ({tables}) " \
-                     "ORDER BY COLUMN_ID".format(tables=self.__join_tables_list(tables))
+                     "{owner}" \
+                     "ORDER BY COLUMN_ID".format(tables=self.__join_tables_list(tables), owner=query_with_owner if self.__db_schema else '')
 
         cursor = self.__conn.cursor()
         cursor.execute(info_query)
