@@ -79,8 +79,8 @@ class Oracle(object):
         self.__logger.debug('Getting columns information')
 
         query_with_owner = "AND owner = '{schema}'".format(schema=self.__db_schema)
-        info_query = "SELECT table_name, column_name, data_type, data_length, nullable, data_default " \
-                     "FROM ALL_TAB_COLS " \
+        info_query = "SELECT table_name, column_name, data_type, data_length, nullable, data_default, data_scale " \
+                     "FROM ALL_TAB_COLUMNS " \
                      "WHERE table_name IN ({tables}) " \
                      "{owner}" \
                      "ORDER BY COLUMN_ID".format(tables=self.__join_tables_list(tables), owner=query_with_owner if self.__db_schema else '')
@@ -94,6 +94,12 @@ class Oracle(object):
             self.__logger.debug('Columns found for table {table}'.format(table=row['TABLE_NAME']))
             if not row['TABLE_NAME'] in tables_information:
                 tables_information[row['TABLE_NAME']] = {'columns': []}
+
+            if row['DATA_TYPE'] == 'NUMBER' and row['DATA_SCALE'] in (0,None):
+                row['DATA_TYPE'] = 'bigint'
+
+            row['DATA_TYPE'] = re.sub('TIMESTAMP(.*)', 'TIMESTAMP', row['DATA_TYPE'])
+           
             tables_information[row['TABLE_NAME']]['columns'].append({
                 'source_column_name': row['COLUMN_NAME'],
                 'column_name': self.__get_valid_column_name(row['COLUMN_NAME']),
