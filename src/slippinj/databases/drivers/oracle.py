@@ -94,24 +94,22 @@ class Oracle(object):
             self.__logger.debug('Columns found for table {table}'.format(table=row['TABLE_NAME']))
             if not row['TABLE_NAME'] in tables_information:
                 tables_information[row['TABLE_NAME']] = {'columns': []}
-
-            if row['DATA_TYPE'] == 'NUMBER' and row['DATA_SCALE'] in (0,None):
-                row['DATA_TYPE'] = 'bigint'
-
-            row['DATA_TYPE'] = re.sub('TIMESTAMP(.*)', 'TIMESTAMP', row['DATA_TYPE'])
            
             tables_information[row['TABLE_NAME']]['columns'].append({
                 'source_column_name': row['COLUMN_NAME'],
                 'column_name': self.__get_valid_column_name(row['COLUMN_NAME']),
                 'source_data_type': row['DATA_TYPE'],
-                'data_type': row['DATA_TYPE'].lower() if row['DATA_TYPE'] not in self.__column_types else self.__column_types[
-                    row['DATA_TYPE']],
+                'data_type': row['DATA_TYPE'].lower() if re.sub('TIMESTAMP(.*)', 'TIMESTAMP', row['DATA_TYPE']) not in self.__column_types else self.__map_columns(row['DATA_TYPE'], row['DATA_SCALE']),
                 'character_maximum_length': row['DATA_LENGTH'],
                 'is_nullable': row['NULLABLE'],
                 'column_default': row['DATA_DEFAULT'],
             })
 
         return tables_information
+
+    def __map_columns(self,datatype, datascale):
+        datatype = re.sub('TIMESTAMP(.*)', 'TIMESTAMP', datatype)
+        return 'bigint' if datatype == 'NUMBER' and datascale in (0,None) else self.__column_types[datatype]
 
     def __get_count_for_tables(self, tables):
 
