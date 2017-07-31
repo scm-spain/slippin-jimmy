@@ -14,8 +14,12 @@ class Oracle(object):
 
         self.__db_name = db_name
         self.__db_user = db_user
+        self.__db_schema = db_schema
         self.__db_dsn = pyoracle.makedsn(host=db_host, port=int(db_port) if None != db_port else 1521, service_name=db_name)
         self.__conn = oracle.build(user=db_user, password=db_pwd, dsn=self.__db_dsn)
+        if self.__db_schema is not None:
+            cursor = self.__conn.cursor()
+            cursor.execute("ALTER SESSION SET CURRENT_SCHEMA = {schema}".format(schema=self.__db_schema))
 
         self.__column_types = {
             'NUMBER': 'double',
@@ -54,11 +58,10 @@ class Oracle(object):
 
     def __get_table_list(self, table_list_query=False):
         self.__logger.debug('Getting table list')
+        query_with_db_schema = "= '{schema}'".format(schema=self.__db_schema)
         query = "SELECT DISTINCT table_name " \
-                "FROM all_tables " \
-                "WHERE OWNER NOT LIKE '%SYS%' " \
-                "AND OWNER NOT LIKE 'APEX%' " \
-                "AND OWNER NOT LIKE 'XDB' {table_list_query}".format(table_list_query=' AND ' + table_list_query if table_list_query else '')
+                "FROM all_tables WHERE OWNER " \
+                "{owner} {table_list_query}".format(owner=query_with_db_schema if self.__db_schema else "NOT LIKE '%SYS%' AND OWNER NOT LIKE 'APEX%'AND OWNER NOT LIKE 'XDB'" ,table_list_query=' AND ' + table_list_query if table_list_query else '')
 
         cursor = self.__conn.cursor()
         cursor.execute(query)
@@ -74,10 +77,13 @@ class Oracle(object):
 
     def __get_columns_for_tables(self, tables):
         self.__logger.debug('Getting columns information')
-        info_query = "SELECT table_name, column_name, data_type, data_length, nullable, data_default " \
-                     "FROM ALL_TAB_COLS " \
+
+        query_with_owner = "AND owner = '{schema}'".format(schema=self.__db_schema)
+        info_query = "SELECT table_name, column_name, data_type, data_length, nullable, data_default, data_scale " \
+                     "FROM ALL_TAB_COLUMNS " \
                      "WHERE table_name IN ({tables}) " \
-                     "ORDER BY COLUMN_ID".format(tables=self.__join_tables_list(tables))
+                     "{owner}" \
+                     "ORDER BY COLUMN_ID".format(tables=self.__join_tables_list(tables), owner=query_with_owner if self.__db_schema else '')
 
         cursor = self.__conn.cursor()
         cursor.execute(info_query)
@@ -88,18 +94,22 @@ class Oracle(object):
             self.__logger.debug('Columns found for table {table}'.format(table=row['TABLE_NAME']))
             if not row['TABLE_NAME'] in tables_information:
                 tables_information[row['TABLE_NAME']] = {'columns': []}
+           
             tables_information[row['TABLE_NAME']]['columns'].append({
                 'source_column_name': row['COLUMN_NAME'],
                 'column_name': self.__get_valid_column_name(row['COLUMN_NAME']),
                 'source_data_type': row['DATA_TYPE'],
-                'data_type': row['DATA_TYPE'].lower() if row['DATA_TYPE'] not in self.__column_types else self.__column_types[
-                    row['DATA_TYPE']],
+                'data_type': row['DATA_TYPE'].lower() if re.sub('TIMESTAMP(.*)', 'TIMESTAMP', row['DATA_TYPE']) not in self.__column_types else self.__map_columns(row['DATA_TYPE'], row['DATA_SCALE']),
                 'character_maximum_length': row['DATA_LENGTH'],
                 'is_nullable': row['NULLABLE'],
                 'column_default': row['DATA_DEFAULT'],
             })
 
         return tables_information
+
+    def __map_columns(self,datatype, datascale):
+        datatype = re.sub('TIMESTAMP(.*)', 'TIMESTAMP', datatype)
+        return 'bigint' if datatype == 'NUMBER' and datascale in (0,None) else self.__column_types[datatype]
 
     def __get_count_for_tables(self, tables):
 
