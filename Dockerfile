@@ -47,6 +47,8 @@ RUN set -ex \
         psutils \
         build-essential \
         vim \
+        tzdata \
+        openjdk-8-jdk \
     ' \
     && apt-get update \
     && apt-get install -y $deps \
@@ -73,5 +75,13 @@ RUN conda install -y oracle-instantclient setuptools freetds \
 ENV PATH ~/.local/bin:$PATH
 
 RUN mkdir ~/.ssh ~/.aws
+
+ENV TZ 'Etc/UTC'
+
+RUN echo $TZ > /etc/timezone && \
+    rm /etc/localtime && \
+    ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && \
+    dpkg-reconfigure -f noninteractive tzdata && \
+    apt-get clean
 
 VOLUME /shared-data
