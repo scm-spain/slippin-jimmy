@@ -72,8 +72,7 @@ class Postgresql(object):
     def __get_database_collation(self):
 
         self.__logger.debug('Getting database collation')
-        info_query = 'SELECT datcollate FROM pg_database WHERE datname = %(db_name)s'
-
+        info_query = 'SELECT pg_encoding_to_char(encoding) FROM pg_database WHERE datname = %(db_name)s'
         cursor = self.__conn.cursor()
         cursor.execute(info_query, {'db_name': self.__db_name})
         return cursor.fetchone()[0].lower()
@@ -125,9 +124,7 @@ class Postgresql(object):
     def __get_top_for_tables(self, tables, top=30):
 
         tables_information = {}
-
-        utf8_collation = ('utf-8' or 'utf8') in self.__get_database_collation()
-
+        utf8_collation = self.__get_database_collation() in ('utf-8','utf8','unicode')
         cursor = self.__conn.cursor()
 
         for table in tables:
