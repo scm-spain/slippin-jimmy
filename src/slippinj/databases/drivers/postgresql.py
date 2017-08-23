@@ -71,9 +71,10 @@ class Postgresql(object):
 
     def __get_database_collation(self):
 
-        self.__logger.debug('Getting database collation')
-        info_query = 'SELECT datcollate FROM pg_database WHERE datname = %(db_name)s'
+        print(self.__conn.server_version)
 
+        self.__logger.debug('Getting database collation')
+        info_query = 'SELECT pg_encoding_to_char(encoding) FROM pg_database WHERE datname = %(db_name)s'
         cursor = self.__conn.cursor()
         cursor.execute(info_query, {'db_name': self.__db_name})
         return cursor.fetchone()[0].lower()
@@ -126,8 +127,8 @@ class Postgresql(object):
 
         tables_information = {}
 
-        utf8_collation = ('utf-8' or 'utf8') in self.__get_database_collation()
-
+        utf8_collation = ('utf-8' or 'utf8' or 'unicode') in self.__get_database_collation()
+            
         cursor = self.__conn.cursor()
 
         for table in tables:
@@ -153,7 +154,7 @@ class Postgresql(object):
                             if column == 'None':
                                 column = 'NULL'
                             table_row.append(column)
-
+                        
                         tables_information[table]['rows'].append(table_row)
 
                 except psycopg2.ProgrammingError:
