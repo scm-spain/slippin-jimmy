@@ -1,59 +1,16 @@
-FROM ubuntu:xenial
+FROM centos:centos7
 MAINTAINER Carlos Gálvez <carlos.galvez@scmspain.com>
 
 RUN set -ex \
     && deps=' \
-        bzip2 \
-        ca-certificates \
-        curl \
-        libgomp1 \
-        libaio1 \
+    	bzip2 \
         gcc \
-        libssl-dev \
-        libsodium-dev \
-        python-dev \
-        libffi-dev \
-        libtiff5-dev \
-        zlib1g-dev \
-        libfreetype6-dev \
-        liblcms2-dev \
-        libwebp-dev \
-        tcl8.6-dev \
-        tk8.6-dev \
-        python-tk \
-        dbus \
-        ghostscript \
-        groff-base \
-        gsfonts \
-        libavahi-client3 \
-        libavahi-common-data \
-        libavahi-common3 \
-        libcap-ng0 \
-        libcups2 \
-        libcupsfilters1 \
-        libcupsimage2 \
-        libdbus-1-3 \
-        libgs9 \
-        libgs9-common \
-        libijs-0.35 \
-        libjbig2dec0 \
-        libnetpbm10 \
-        libpaper-utils \
-        libpaper1 \
-        libxaw7 \
-        libxmu6 \
-        netpbm \
-        poppler-data \
-        psutils \
-        build-essential \
-        vim \
-        tzdata \
-        openjdk-8-jdk \
+        java-1.8.0-openjdk \
     ' \
-    && apt-get update \
-    && apt-get install -y $deps \
-    && apt-get upgrade -y \
+    && yum update -y \
+    && yum install -y $deps \
     && rm -rf /var/lib/apt/lists/*
+
 
 ENV PKG_URL https://repo.continuum.io/miniconda/Miniconda2-latest-Linux-x86_64.sh
 ENV INSTALLER miniconda.sh
@@ -76,12 +33,9 @@ ENV PATH ~/.local/bin:$PATH
 
 RUN mkdir ~/.ssh ~/.aws
 
-ENV TZ 'Etc/UTC'
+ENV TZ 'UTC'
 
-RUN echo $TZ > /etc/timezone && \
-    rm /etc/localtime && \
-    ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && \
-    dpkg-reconfigure -f noninteractive tzdata && \
-    apt-get clean
+RUN rm -f /etc/localtime; ln -s /usr/share/zoneinfo/$TZ /etc/localtime 
+RUN echo 'ZONE="$TZ"' > /etc/sysconfig/clock
 
 VOLUME /shared-data
