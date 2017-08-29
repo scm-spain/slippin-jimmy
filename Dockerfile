@@ -6,6 +6,10 @@ RUN set -ex \
     	bzip2 \
         gcc \
         java-1.8.0-openjdk \
+        openssh \
+        openssh-server \
+        openssh-clients \
+        openssl-libs \
     ' \
     && yum update -y \
     && yum install -y $deps \
