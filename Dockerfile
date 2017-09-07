@@ -10,6 +10,7 @@ RUN set -ex \
         openssh-server \
         openssh-clients \
         openssl-libs \
+        libaio \
     ' \
     && yum update -y \
     && yum install -y $deps \
