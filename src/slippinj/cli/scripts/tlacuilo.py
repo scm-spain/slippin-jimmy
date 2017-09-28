@@ -1,4 +1,5 @@
 import os
+import glob
 
 from .basic_script import BasicScript
 
@@ -109,3 +110,21 @@ class Tlacuilo(BasicScript):
                         os.path.join(output_directory, 'hive'),
                         configuration[table_type]
                     )
+
+        logger.info('Checking for .py spark files on selected configuration folders')
+        python_files = []
+        for path in configuration.config_paths:
+            root_path = os.path.dirname(path)
+            current_path_files = glob.glob(os.path.join(root_path, '*.py'))
+            python_files.extend(current_path_files)
+
+        if python_files:
+            logger.info('Copying .py spark files into tmp folder')
+            injector.get('filesystem').mkdir(os.path.join(output_directory, 'spark/'))
+            print python_files
+            for py in python_files:
+                print py
+                injector.get('filesystem').cp(
+                    py,
+                    os.path.join(output_directory, 'spark/')
+                )
