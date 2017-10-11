@@ -120,9 +120,9 @@ class Tlacuilo(BasicScript):
 
         if python_files:
             logger.info('Copying .py spark files into tmp folder')
-            injector.get('filesystem').mkdir(os.path.join(output_directory, 'spark/'))
+            injector.get('filesystem').mkdir(os.path.join(output_directory, 'lib/'))
             for py in python_files:
                 injector.get('filesystem').cp(
                     py,
-                    os.path.join(output_directory, 'spark/')
+                    os.path.join(output_directory, 'lib/')
                 )
