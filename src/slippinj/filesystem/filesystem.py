@@ -31,6 +31,15 @@ class Filesystem(object):
         self.__logger.debug('Generating directory {output_dir}'.format(output_dir=output_dir))
         return os.mkdir(output_dir) if False == os.path.exists(output_dir) else True
 
+    def cp(self, input_path, output_dir):
+        """
+        Copy a file into an output directory
+        :param input_path: string
+        :param output_dir: string
+        """
+        self.__logger.debug('Copying file {input_path} into {output_dir}'.format(input_path=input_path, output_dir=output_dir))
+        shutil.copy(input_path,output_dir)
+
     def write_file(self, output_file, content):
         """
         Write given content into file

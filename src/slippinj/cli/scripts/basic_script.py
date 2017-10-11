@@ -53,6 +53,8 @@ class BasicScript(object):
                 + configuration.items()
             )
 
+            configuration['config_paths'] = configuration_file
+
             for key in configuration:
                 object_configuration[key] = configuration[key]
 

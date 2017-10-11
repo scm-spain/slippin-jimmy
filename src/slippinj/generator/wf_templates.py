@@ -54,6 +54,7 @@ class WfTemplatesRender(object):
         :param output_folder: string
         :param template_vars: dict
         """
+
         for template_files in self.__get_template_files(base_directory, template_dir):
             self.__render_template_files(
                 base_directory,
