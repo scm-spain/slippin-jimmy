@@ -43,8 +43,8 @@ class Tlacuilo(BasicScript):
             },
             {
                 'short': '-b',
-                'long': '--hive-metastore-bucket',
-                'help': 'Bucket where all data is saved',
+                'long': '--swamp-bucket',
+                'help': 'S3 bucket where the data swamp tables are stored',
                 'default': False
             },
             {
@@ -99,17 +99,6 @@ class Tlacuilo(BasicScript):
             output_directory,
             configuration
         )
-
-        if 'hive_template' in configuration:
-            logger.info('Rendering hive templates')
-            for table_type in ['incremental_tables', 'snapshot_tables', 'other_tables']:
-                if table_type in configuration:
-                    injector.get('hive_templates_render').render_hive_folder(
-                        args.template_dir,
-                        configuration['hive_template'],
-                        os.path.join(output_directory, 'hive'),
-                        configuration[table_type]
-                    )
 
         logger.info('Checking for .py spark files on selected configuration folders')
         python_files = []

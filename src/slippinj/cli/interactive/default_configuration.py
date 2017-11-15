@@ -25,7 +25,7 @@ class DefaultConfiguration(object):
         :param workflow_configuration: dict
         :return: dict
         """
-        default_variables = ['hive_metastore_bucket', 'hdfs_deploy_folder']
+        default_variables = ['swamp_bucket', 'hdfs_deploy_folder']
         default_configuration = {}
         interactive_provided = False
         deploy_configuration = self.__deploy_configuration.build(environment=environment,

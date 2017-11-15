@@ -73,8 +73,7 @@ class WorkflowsYamlConfigurationWriter(object):
         self.__tables_configuration = tables_configuration
         self.__logger = logger
 
-    def generate_yaml_files(self, injector, tables_information, db_driver, db_host, db_port, db_user, db_name,
-                            db_password, location=None):
+    def generate_yaml_files(self, injector, tables_information, location=None):
         """
         Given tables and database connection information generate the YAML files and save them into provided location
         :param injector: Injector
@@ -88,17 +87,11 @@ class WorkflowsYamlConfigurationWriter(object):
         :param location: string
         """
         common_data = {
-            'table_base_location': 's3://${hiveMetastoreBucket}/',
-            'db_connection_string': 'jdbc:' + db_driver + '://' + db_host + ((':' + db_port) if db_port else ''),
-            'db_username': db_user,
-            'hive_db_name': db_name,
-            'hive_tmp_db_name': 'tmp_' + db_name,
+            'table_base_location': 's3://${swampBucket}/<source>/<database>.<schema>/',
+            'db_connection_string': tables_information['db_connection_string'],
+            'mode': 'RDB',
+            'template': 'incremental'
         }
-
-        if db_password:
-            common_data['db_password'] = ''
-            common_data['db_password_passphrase'] = ''
-            common_data['db_password_salt'] = ''
 
         tables_output = yaml.safe_dump(self.__tables_configuration.generate_configuration(tables_information, injector),
                                        default_flow_style=False, explicit_start=False, encoding='utf-8',

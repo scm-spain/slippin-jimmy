@@ -64,9 +64,9 @@ class ExcelWriter(object):
 
             columns = []
             for column in tables_information[table_name]['columns']:
-                tables_sheet.append([column['source_column_name'], column['source_data_type'], column['character_maximum_length'],
+                tables_sheet.append([column['column_name'], column['data_type'], column['character_maximum_length'],
                                      column['is_nullable'], column['column_default']])
-                columns.append(column['source_column_name'])
+                columns.append(column['column_name'])
 
             tables_sheet.append([])
             tables_sheet.append([])

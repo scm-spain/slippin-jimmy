@@ -109,7 +109,4 @@ class Scribe(BasicScript):
 
         if not args.excel_only:
             logger.info('Writing tables information into config files')
-            injector.get('yaml_configuration_writer').generate_yaml_files(injector, tables_information, args.db_driver,
-                                                                          args.db_host, args.db_port,
-                                                                          args.db_user, args.db_name, args.db_pwd,
-                                                                          args.output)
+            injector.get('yaml_configuration_writer').generate_yaml_files(injector, tables_information, args.output)
