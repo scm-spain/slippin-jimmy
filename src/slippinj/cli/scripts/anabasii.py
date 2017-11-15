@@ -22,14 +22,14 @@ class Anabasii(BasicScript):
             },
             {
                 'short': '-m',
-                'long': '--hive-metastore-bucket',
-                'help': 'Bucket where the Hive tables are stored',
-                'default': False
+                'long': '--swamp-bucket',
+                'help': 'S3 bucket where the data swamp tables are stored',
+                'default': False,
             },
             {
                 'short': '-d',
                 'long': '--hdfs-deploy-folder',
-                'help': 'Folder on HDFS to deploy the code',
+                'help': 'Folder on HDFS to deploy the workflow',
                 'default': False
             },
             {

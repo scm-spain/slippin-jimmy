@@ -60,13 +60,7 @@ class TestWorkflowsYamlConfigurationWriter:
         mocked_tables_configuration.generate_configuration = Mock(return_value={})
 
         WorkflowsYamlConfigurationWriter(mocked_filesystem, mocked_tables_configuration, logger).generate_yaml_files(
-            Mock(), {},
-            'test_driver',
-            'test_host',
-            'test_port',
-            'test_user',
-            'test_db_name',
-            'test_password')
+            Mock(), {"db_connection_string" : "test"})
 
         assert 2 == mocked_filesystem.write_file.call_count
         assert mocked_tables_configuration.generate_configuration.called

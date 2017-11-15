@@ -51,39 +51,31 @@ class TestSqlserver:
 
         expected = {'tables': {'test': {'columns': [{'character_maximum_length': '1',
                                                      'column_default': '',
-                                                     'source_column_name': 'column',
                                                      'column_name': 'column',
-                                                     'source_data_type': 'string',
                                                      'data_type': 'string',
                                                      'is_nullable': 'NO'}],
                                         'count': 10,
                                         'rows': []},
                                'unit': {'columns': [{'character_maximum_length': '1',
                                                      'column_default': '',
-                                                     'source_column_name': 'column',
                                                      'column_name': 'column',
-                                                     'source_data_type': 'string',
                                                      'data_type': 'string',
                                                      'is_nullable': 'NO'}],
                                         'count': 10,
-                                        'rows': []}}}
+                                        'rows': []}},
+                    'db_connection_string': 'jdbc:sqlserver://test'
+                    }
 
-        assert expected == Sqlserver(mocked_builder, self.logger).get_all_tables_info(None, None, None)
+        assert expected == Sqlserver(mocked_builder, self.logger, db_host = 'test').get_all_tables_info(None, None, None)
 
     def test_get_tables_info_when_table_list_has_been_provided(self):
-        mocked_table_list_query_cursor = Mock()
-        mocked_table_list_query_cursor.execute = Mock(return_value=True)
-        mocked_table_list_query_cursor.fetchall = Mock(return_value=[{'table_name': 'test'}])
-
         mocked_table_count_query_cursor = Mock()
         mocked_table_count_query_cursor.execute = Mock(return_value=True)
         mocked_table_count_query_cursor.fetchone = Mock(return_value=[10])
 
         columns = {
             'table_name': '',
-            'source_column_name': 'column',
             'column_name': 'column',
-            'source_data_type': 'string',
             'data_type': 'string',
             'character_maximum_length': '1',
             'is_nullable': 'NO',
@@ -103,20 +95,20 @@ class TestSqlserver:
         mocked_table_top_query_cursor.fetchall = Mock(return_value=[])
 
         mocked_mssql = Mock()
-        mocked_mssql.cursor = Mock(side_effect=[mocked_table_list_query_cursor, mocked_table_count_query_cursor,
+        mocked_mssql.cursor = Mock(side_effect=[mocked_table_count_query_cursor,
                                                 mocked_table_columns_query_cursor, mocked_table_top_query_cursor])
         mocked_builder = Mock()
         mocked_builder.build = Mock(return_value=mocked_mssql)
 
-        expected = {'excluded_tables': ['test'], 'tables': {
+        expected = {'tables': {
             'unit': {'columns': [{'character_maximum_length': '1',
                                   'column_default': '',
-                                  'source_column_name': 'column',
                                   'column_name': 'column',
-                                  'source_data_type': 'string',
                                   'data_type': 'string',
                                   'is_nullable': 'NO'}],
                      'count': 10,
-                     'rows': []}}}
+                     'rows': []}},
+                    'db_connection_string': 'jdbc:sqlserver://test'
+                    }
 
-        assert expected == Sqlserver(mocked_builder, self.logger).get_all_tables_info('unit', None, None)
+        assert expected == Sqlserver(mocked_builder, self.logger, db_host = 'test').get_all_tables_info('unit', None, None)

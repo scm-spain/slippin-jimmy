@@ -6,7 +6,7 @@ from slippinj.cli.scripts.tables_configuration.tables_configuration import Table
 
 
 class TestTablesConfiguration:
-    def test_get_configuration_without_excluded_tables_and_all_tables_as_incremental(self):
+    def test_get_configuration_with_all_tables_as_incremental(self):
         mocked_table_configuration_generator = Mock()
         mocked_table_configuration_generator.get_table_configuration = Mock(return_value={})
 
@@ -18,12 +18,18 @@ class TestTablesConfiguration:
             'tables': {
                 'unit': {
                     'columns': [
-                        {'data_type': 'timestamp'}
+                        {
+                            'data_type': 'timestamp',
+                            'column_name': 'column1'
+                        }
                     ]
                 },
                 'test': {
                     'columns': [
-                        {'data_type': 'timestamp'}
+                        {
+                            'data_type': 'timestamp',
+                            'column_name': 'column1'
+                        }
                     ]
                 }
             }
@@ -31,48 +37,14 @@ class TestTablesConfiguration:
 
         expected = {
             'incremental_tables': {
-                'unit': {},
-                'test': {}
+                'unit': { 'partition_field': 'column1'},
+                'test': { 'partition_field': 'column1'}
             }
         }
 
         assert expected == TablesConfiguration().generate_configuration(tables, mocked_injector)
 
-    def test_get_configuration_with_excluded_tables_and_all_tables_as_incremental(self):
-        mocked_table_configuration_generator = Mock()
-        mocked_table_configuration_generator.get_table_configuration = Mock(return_value={})
-
-        mocked_injector = Mock()
-        mocked_injector.get = Mock(side_effect=[self.__generate_test_logger(), mocked_table_configuration_generator,
-                                                mocked_table_configuration_generator])
-
-        tables = {
-            'tables': {
-                'unit': {
-                    'columns': [
-                        {'data_type': 'timestamp'}
-                    ]
-                },
-                'test': {
-                    'columns': [
-                        {'data_type': 'timestamp'}
-                    ]
-                }
-            },
-            'excluded_tables': ['test']
-        }
-
-        expected = {
-            'incremental_tables': {
-                'unit': {},
-                'test': {}
-            },
-            'excluded_tables': ['test']
-        }
-
-        assert expected == TablesConfiguration().generate_configuration(tables, mocked_injector)
-
-    def test_get_configuration_without_excluded_tables_and_two_different_type_of_tables(self):
+    def test_get_configuration_with_incremental_and_truncate_tables(self):
         mocked_incremental_table_configuration_generator = Mock()
         mocked_incremental_table_configuration_generator.get_table_configuration = Mock(return_value={})
 
@@ -88,26 +60,30 @@ class TestTablesConfiguration:
             'tables': {
                 'unit': {
                     'columns': [
-                        {'data_type': 'timestamp'}
+                        {
+                            'data_type': 'timestamp',
+                            'column_name': 'column1'
+                        }
                     ]
                 },
                 'test': {
                     'columns': [
-                        {'data_type': 'string'}
+                        {
+                            'data_type': 'string',
+                            'column_name': 'column1'
+                        }
                     ]
                 }
-            },
-            'excluded_tables': ['test']
+            }
         }
 
         expected = {
             'incremental_tables': {
-                'unit': {}
+                'unit': { 'partition_field': 'column1'}
             },
-            'other_tables': {
+            'truncate_tables': {
                 'test': {}
-            },
-            'excluded_tables': ['test']
+            }
         }
 
         assert expected == TablesConfiguration().generate_configuration(tables, mocked_injector)

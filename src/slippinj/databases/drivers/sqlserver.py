@@ -28,38 +28,7 @@ class Sqlserver(object):
         self.__conn = mssql.build(server=db_host, user=db_user, password=db_pwd, database=db_name, tds_version='7.0',
                                   port=db_port if None != db_port else 1433)
 
-        self.__column_types = {
-            'uniqueidentifier': 'string',
-            'datetime': 'timestamp',
-            'nvarchar': 'string',
-            'money': 'double',
-            'decimal': 'double',
-            'bit': 'boolean',
-            'float': 'double',
-            'varbinary': 'binary',
-            'char': 'string',
-            'date': 'timestamp',
-            'datetime': 'timestamp',
-            'datetime2': 'timestamp',
-            'datetimeoffset(2)': 'timestamp',
-            'image': 'string',
-            'integer': 'int',
-            'nchar': 'string',
-            'ntext': 'string',
-            'numeric': 'double',
-            'nvarchar(max)': 'double',
-            'real': 'double',
-            'smalldatetime': 'timestamp',
-            'smallmoney': 'double',
-            'text': 'string',
-            'time': 'timestamp',
-            'udt': 'binary',
-            'varbinary(max)': 'string',
-            'varchar': 'string',
-            'varchar(max)': 'string',
-            'xml': 'string',
-            'tinyint': 'smallint'
-        }
+        self.__db_connection_string = 'jdbc:sqlserver://' + db_host + ((':' + db_port) if db_port else '') + ((';DatabaseName=' + db_name) if db_name else '')
 
         self.__illegal_characters = re.compile(r'[\000-\010]|[\013-\014]|[\016-\037]|[\xa1]|[\xbf]|[\xc1]|[\xc9]|[\xcd]|[\xd1]|[\xbf]|[\xda]|[\xdc]|[\xe1]|[\xf1]|[\xfa]|[\xf3]')
 
@@ -67,9 +36,6 @@ class Sqlserver(object):
 
     def __join_tables_list(self, tables):
         return ','.join('\'%s\'' % table for table in tables)
-
-    def __get_valid_column_name(self, column_name):
-        return re.sub("[ ,;{}()\n\t=]", "", column_name)
 
     def __get_table_list(self, table_list_query=False):
 
@@ -82,9 +48,6 @@ class Sqlserver(object):
         self.__logger.debug('Found {count} tables'.format(count=cursor.rowcount))
 
         return map(lambda x: x['table_name'], cursor.fetchall())
-
-    def __get_tables_to_exclude(self, tables):
-        return self.__get_table_list('table_name NOT IN ({tables})'.format(tables=self.__join_tables_list(tables)))
 
     def __get_columns_for_tables(self, tables):
 
@@ -103,11 +66,8 @@ class Sqlserver(object):
                 tables_information[row['table_name']] = {'columns': []}
 
             tables_information[row['table_name']]['columns'].append({
-                'source_column_name': row['column_name'],
-                'column_name': self.__get_valid_column_name(row['column_name']),
-                'source_data_type': row['data_type'],
-                'data_type': row['data_type'] if row['data_type'] not in self.__column_types else self.__column_types[
-                    row['data_type']],
+                'column_name': row['column_name'],
+                'data_type': row['data_type'],
                 'character_maximum_length': row['character_maximum_length'],
                 'is_nullable': row['is_nullable'],
                 'column_default': row['column_default'],
@@ -174,11 +134,9 @@ class Sqlserver(object):
         :param top_max: integer
         :return: dict
         """
-        tables_to_exclude = {}
 
         if table_list:
             tables = map(lambda x: unicode(x), table_list.split(','))
-            tables_to_exclude = self.__get_tables_to_exclude(tables)
         else:
             tables = self.__get_table_list(table_list_query)
 
@@ -193,7 +151,6 @@ class Sqlserver(object):
             tables_info['tables'][table].update(tables_counts[table])
             tables_info['tables'][table].update(tables_top[table])
 
-        if tables_to_exclude:
-            tables_info['excluded_tables'] = tables_to_exclude
+        tables_info['db_connection_string'] = self.__db_connection_string
 
         return tables_info

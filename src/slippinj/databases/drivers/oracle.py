@@ -21,18 +21,7 @@ class Oracle(object):
             cursor = self.__conn.cursor()
             cursor.execute("ALTER SESSION SET CURRENT_SCHEMA = {schema}".format(schema=self.__db_schema))
 
-        self.__column_types = {
-            'NUMBER': 'double',
-            'BINARY_DOUBLE': 'double',
-            'BINARY_FLOAT': 'float',
-            'CHAR': 'string',
-            'NCHAR': 'string',
-            'VARCHAR2': 'string',
-            'NVARCHAR2': 'string',
-            'DATE': 'timestamp',
-            'TIMESTAMP': 'timestamp',
-            'RAW': 'binary',
-        }
+        self.__db_connection_string = 'jdbc:oracle:thin:@//' + db_host + ((':' + db_port) if db_port else '') + (('/' + db_name) if db_name else '')
 
         self.__illegal_characters = re.compile(r'[\000-\010]|[\013-\014]|[\016-\037]|[\xa1]|[\xc1]|[\xc9]|[\xcd]|[\xd1]|[\xbf]|[\xda]|[\xdc]|[\xe1]|[\xf1]|[\xfa]|[\xf3]')
 
@@ -53,9 +42,6 @@ class Oracle(object):
     def __join_tables_list(self, tables):
             return ','.join('\'%s\'' % table for table in tables)
 
-    def __get_valid_column_name(self, column_name):
-        return re.sub("[ ,;{}()\n\t=]", "", column_name)
-
     def __get_table_list(self, table_list_query=False):
         self.__logger.debug('Getting table list')
         query_with_db_schema = "= '{schema}'".format(schema=self.__db_schema)
@@ -71,9 +57,6 @@ class Oracle(object):
         self.__logger.debug('Found {count} tables'.format(count=cursor.rowcount))
 
         return tablelist
-
-    def __get_tables_to_exclude(self, tables):
-        return self.__get_table_list('table_name NOT IN ({tables})'.format(tables=self.__join_tables_list(tables)))
 
     def __get_columns_for_tables(self, tables):
         self.__logger.debug('Getting columns information')
@@ -96,20 +79,14 @@ class Oracle(object):
                 tables_information[row['TABLE_NAME']] = {'columns': []}
            
             tables_information[row['TABLE_NAME']]['columns'].append({
-                'source_column_name': row['COLUMN_NAME'],
-                'column_name': self.__get_valid_column_name(row['COLUMN_NAME']),
-                'source_data_type': row['DATA_TYPE'],
-                'data_type': row['DATA_TYPE'].lower() if re.sub('TIMESTAMP(.*)', 'TIMESTAMP', row['DATA_TYPE']) not in self.__column_types else self.__map_columns(row['DATA_TYPE'], row['DATA_SCALE']),
+                'column_name': row['COLUMN_NAME'],
+                'data_type': row['DATA_TYPE'].lower(),
                 'character_maximum_length': row['DATA_LENGTH'],
                 'is_nullable': row['NULLABLE'],
                 'column_default': row['DATA_DEFAULT'],
             })
 
         return tables_information
-
-    def __map_columns(self,datatype, datascale):
-        datatype = re.sub('TIMESTAMP(.*)', 'TIMESTAMP', datatype)
-        return 'bigint' if datatype == 'NUMBER' and datascale in (0,None) else self.__column_types[datatype]
 
     def __get_count_for_tables(self, tables):
 
@@ -175,11 +152,9 @@ class Oracle(object):
         :param top_max: integer
         :return: dict
         """
-        tables_to_exclude = {}
 
         if table_list:
             tables = map(lambda x: unicode(x), table_list.split(','))
-            tables_to_exclude = self.__get_tables_to_exclude(tables)
         else:
             tables = self.__get_table_list(table_list_query)
 
@@ -193,8 +168,7 @@ class Oracle(object):
             tables_info['tables'][table].update(tables_counts[table])
             tables_info['tables'][table].update(tables_top[table])
 
-        if tables_to_exclude:
-            tables_info['excluded_tables'] = tables_to_exclude
+        tables_info['db_connection_string'] = self.__db_connection_string
 
         return tables_info
 
