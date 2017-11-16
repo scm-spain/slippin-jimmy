@@ -56,7 +56,8 @@ class Tlacuilo(BasicScript):
             {
                 'short': '-i',
                 'long': '--cluster-information',
-                'help': 'Try to get cluster information in order to replace variables in the template',
+                'action': 'store_true',
+                'help': 'Ask interactively for cluster information in order to replace variables in the template',
                 'default': False
             }
         ]
@@ -78,7 +79,8 @@ class Tlacuilo(BasicScript):
         logger.info('Getting configuration from files')
         configuration = self.get_wf_configuration(args, injector)
         if args.cluster_information:
-            for k, v in injector.get('emr_cluster').get_cluster_information(args.cluster_information).items():
+            cluster_id = injector.get('interactive_cluster_id').get()
+            for k, v in injector.get('emr_cluster').get_cluster_information(cluster_id).items():
                 configuration[k] = v
 
         configuration.output_directory = output_directory

@@ -17,14 +17,8 @@ class Anabasii(BasicScript):
             {
                 'short': '-c',
                 'long': '--cluster-id',
-                'help': 'Provide a cluster id to work with, in case you don\'t provide one a list of available clusters will be shown to select one',
+                'help': 'Provide a cluster id to work with, in case you don\'t provide one and didn\'t do it in Tlacuilo, a list of available clusters will be shown to select one',
                 'default': False
-            },
-            {
-                'short': '-m',
-                'long': '--swamp-bucket',
-                'help': 'S3 bucket where the data swamp tables are stored',
-                'default': False,
             },
             {
                 'short': '-d',
@@ -47,17 +41,19 @@ class Anabasii(BasicScript):
         :param injector: Injector
         """
         logger = injector.get('logger')
-        cluster_id = args.cluster_id if False != args.cluster_id else injector.get('interactive_cluster_id').get()
 
         if args.script not in __name__:
             logger.info('Getting workflow configuration')
             configuration = self.get_wf_configuration(args, injector)
-            configuration.cluster_id = cluster_id
+            if 'cluster_id' not in configuration:
+                configuration.cluster_id = args.cluster_id if False != args.cluster_id else injector.get('interactive_cluster_id').get()
 
+            cluster_id = configuration.cluster_id
             wf_compiled_dir = configuration.output_directory if configuration.output_directory else args.wf_dir
         else:
             wf_compiled_dir = args.wf_dir
             configuration = injector.get('interactive_default_configuration').get('devel', args, {})
+            cluster_id = args.cluster_id if False != args.cluster_id else injector.get('interactive_cluster_id').get()
 
         logger.info('Uploading {wf_dir} to the cluster {cluster_id}'.format(wf_dir=wf_compiled_dir, cluster_id=cluster_id))
         injector.get('emr_deploy').upload_code(wf_compiled_dir, cluster_id, configuration['hdfs_deploy_folder'],

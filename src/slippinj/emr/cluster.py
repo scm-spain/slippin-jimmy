@@ -56,7 +56,8 @@ class EmrCluster(object):
                 'public_ip': cluster_ips[0],
                 'private_ip': cluster_ips[1],
                 'environment': self.__get_cluster_environment(cluster_information['Cluster']['Tags']),
-                'key_name': cluster_information['Cluster']['Ec2InstanceAttributes']['Ec2KeyName']
+                'key_name': cluster_information['Cluster']['Ec2InstanceAttributes']['Ec2KeyName'],
+                'cluster_id': cluster_id
             }
 
         return self.__cluster_information[cluster_id]
