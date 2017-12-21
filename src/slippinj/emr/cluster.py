@@ -2,6 +2,7 @@ from injector import inject, AssistedBuilder
 
 from slippinj.cli.ssh import SSHClient
 
+import subprocess
 
 class EmrCluster(object):
     """Handle all EMR cluster information and configuration"""
@@ -70,12 +71,15 @@ class EmrCluster(object):
         :param stop_on_error: boolean
         :return: string
         """
-        cluster_information = self.get_cluster_information(cluster_id)
 
         self.__logger.debug(
             'Executing command {command} in cluster {cluster_id}'.format(command=command, cluster_id=cluster_id))
-        return self.__ssh_client.exec_command(command, cluster_information['public_dns'],
+        if cluster_id:
+            cluster_information = self.get_cluster_information(cluster_id)
+            return self.__ssh_client.exec_command(command, cluster_information['public_dns'],
                                               cluster_information['key_name'], stop_on_error)
+        else:
+            return subprocess.check_output(command, shell=True)
 
     def open_sftp(self, cluster_id):
         """

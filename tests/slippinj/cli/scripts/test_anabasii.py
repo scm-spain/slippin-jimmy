@@ -14,7 +14,7 @@ class TestAnabasii:
 
         Anabasii(mocked_args_parser).configure()
 
-        assert 3 == mocked_args_parser.add_argument.call_count
+        assert 4 == mocked_args_parser.add_argument.call_count
 
     def test_script_is_executable_when_cluster_id_has_not_been_provided_not_standalone_run(self):
         mocked_interactive_cluster_id = Mock()
@@ -32,6 +32,7 @@ class TestAnabasii:
         mocked_args.cluster_id = False
         mocked_args.wf_dir = 'test'
         mocked_args.hdfs_deploy_folder = 'test'
+        mocked_args.local_mode = False
         mocked_args.script = 'hersir'
 
         Anabasii(Mock()).run(mocked_args, mocked_injector)
@@ -54,6 +55,7 @@ class TestAnabasii:
         mocked_args.cluster_id = False
         mocked_args.wf_dir = 'test'
         mocked_args.hdfs_deploy_folder = 'test'
+        mocked_args.local_mode = False
         mocked_args.script = 'hersir'
 
         Anabasii(Mock()).run(mocked_args, mocked_injector)
@@ -67,18 +69,15 @@ class TestAnabasii:
         mocked_emr_deploy = Mock()
         mocked_emr_deploy.upload_code = Mock(return_value=True)
 
-        mocked_interactive_configuration = Mock()
-        mocked_interactive_configuration.get = Mock(return_value={'hdfs_deploy_folder': 'test'})
-
         mocked_injector = Mock()
         mocked_injector.get = Mock(
-            side_effect=[self.__generate_test_logger(), mocked_interactive_configuration,
-                            mocked_interactive_cluster_id, mocked_emr_deploy])
+            side_effect=[self.__generate_test_logger(), mocked_interactive_cluster_id, mocked_emr_deploy])
 
         mocked_args = Mock()
         mocked_args.cluster_id = False
         mocked_args.wf_dir = 'test'
         mocked_args.hdfs_deploy_folder = 'test'
+        mocked_args.local_mode = False
         mocked_args.script = 'anabasii'
 
         Anabasii(Mock()).run(mocked_args, mocked_injector)
@@ -100,6 +99,7 @@ class TestAnabasii:
         mocked_args.cluster_id = 'test'
         mocked_args.wf_dir = 'test'
         mocked_args.hdfs_deploy_folder = 'test'
+        mocked_args.local_mode = False
         mocked_args.script = 'hersir'
 
         Anabasii(Mock()).run(mocked_args, mocked_injector)
@@ -114,17 +114,16 @@ class TestAnabasii:
         mocked_emr_deploy = Mock()
         mocked_emr_deploy.upload_code = Mock(return_value=True)
 
-        mocked_interactive_configuration = Mock()
-        mocked_interactive_configuration.get = Mock(return_value={'hdfs_deploy_folder': 'test'})
 
         mocked_injector = Mock()
         mocked_injector.get = Mock(
-            side_effect=[self.__generate_test_logger(), mocked_interactive_configuration, mocked_emr_deploy])
+            side_effect=[self.__generate_test_logger(), mocked_emr_deploy])
 
         mocked_args = Mock()
         mocked_args.cluster_id = 'test'
         mocked_args.wf_dir = 'test'
         mocked_args.hdfs_deploy_folder = 'test'
+        mocked_args.local_mode = False
         mocked_args.script = 'anabasii'
 
         Anabasii(Mock()).run(mocked_args, mocked_injector)

@@ -16,8 +16,7 @@ class Tlacuilo(BasicScript):
             {
                 'short': '-w',
                 'long': '--wf-dir',
-                'help': 'Folder where all the workflows files are present',
-                'required': True
+                'help': 'Folder where all the workflows files are present'
             },
             {
                 'short': '-t',
@@ -37,27 +36,22 @@ class Tlacuilo(BasicScript):
                 'action': 'append'
             },
             {
-                'short': '-c',
+                'short': '-f',
                 'long': '--configuration-file',
                 'help': 'File where all the configuration is stored'
-            },
-            {
-                'short': '-b',
-                'long': '--swamp-bucket',
-                'help': 'S3 bucket where the data swamp tables are stored',
-                'default': False
-            },
-            {
-                'short': '-f',
-                'long': '--hdfs-deploy-folder',
-                'help': 'Folder where all the code will be deployed on HDFS',
-                'default': False
             },
             {
                 'short': '-i',
                 'long': '--cluster-information',
                 'action': 'store_true',
                 'help': 'Ask interactively for cluster information in order to replace variables in the template',
+                'default': False
+            },
+            {
+                'short': '-l',
+                'long': '--local-mode',
+                'action': 'store_true',
+                'help': 'If set, we assume that we\'re on the cluster and no remote connection needs to be made',
                 'default': False
             }
         ]

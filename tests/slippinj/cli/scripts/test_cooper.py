@@ -14,7 +14,7 @@ class TestCooper:
 
         Cooper(mocked_args_parser).configure()
 
-        assert 2 == mocked_args_parser.add_argument.call_count
+        assert 3 == mocked_args_parser.add_argument.call_count
 
     def test_script_is_executable_successfully(self):
         mocked_interactive_properties_file = Mock()
@@ -31,6 +31,7 @@ class TestCooper:
         mocked_args = Mock()
         mocked_args.wf_dir = 'test'
         mocked_args.cluster_id = 'test'
+        mocked_args.job_file_name = False
 
         Cooper(Mock()).run(mocked_args, mocked_injector)
 
@@ -51,6 +52,7 @@ class TestCooper:
         mocked_args = Mock()
         mocked_args.wf_dir = 'test'
         mocked_args.cluster_id = 'test'
+        mocked_args.job_file_name = False
 
         mocked_emr_deploy.run_properties_file.assert_not_called()
 

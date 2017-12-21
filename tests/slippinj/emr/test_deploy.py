@@ -32,7 +32,7 @@ class TestEmrDeploy(object):
         mocked_hdfs.mkdir = Mock(return_value=True)
         mocked_hdfs.put = Mock(return_value=True)
 
-        assert True == EmrDeploy(mocked_emr_cluster, mocked_hdfs, mocked_filesystem).upload_code('test', 'test', 'test')
+        assert True == EmrDeploy(mocked_emr_cluster, mocked_hdfs, mocked_filesystem).upload_code('test', 'test', 'test', 'test')
 
     def test_code_upload_fails_when_creating_remote_directory(self):
         mocked_sftp_client = Mock()
@@ -54,4 +54,4 @@ class TestEmrDeploy(object):
         mocked_hdfs.put = Mock(return_value=True)
 
         assert False == EmrDeploy(mocked_emr_cluster, mocked_hdfs, mocked_filesystem).upload_code('test', 'test',
-                                                                                                  'test')
+                                                                                                  'test', 'test')

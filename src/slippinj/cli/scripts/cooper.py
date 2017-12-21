@@ -19,8 +19,13 @@ class Cooper(BasicScript):
             {
                 'short': '-w',
                 'long': '--wf-dir',
-                'help': 'Folder where all the workflows files are present',
-                'required': True
+                'help': 'Folder where all the workflows files are present'
+            },
+            {
+                'short': '-j',
+                'long': '--job-file-name',
+                'help': 'If set, we assume that it is the name of the workflow job configuration file, if not it will ask for the present ones',
+                'default': False
             }
         ]
 
@@ -32,9 +37,10 @@ class Cooper(BasicScript):
         """
         configuration = self.get_wf_configuration(args, injector)
         wf_compiled_dir = configuration.output_directory if configuration.output_directory else args.wf_dir
-        cluster_id = configuration.cluster_id if configuration.cluster_id else args.cluster_id
+        cluster_id = configuration.cluster_id if 'cluster_id' in configuration else args.cluster_id
 
-        properties_file = injector.get('interactive_properties_file').get(wf_compiled_dir)
+        properties_file = wf_compiled_dir + '/' + args.job_file_name if args.job_file_name != False else injector.get('interactive_properties_file').get(wf_compiled_dir)
+
         if properties_file:
             injector.get('logger').info(
                 'Running {properties_file} in cluster {cluster_id}'.format(properties_file=properties_file,
