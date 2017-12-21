@@ -48,11 +48,6 @@ class BasicScript(object):
 
             configuration = injector.get('wf_configuration').get_workflow_configuration(configuration_file)
 
-            configuration = dict(
-                injector.get('interactive_default_configuration').get('devel', args, configuration).items()
-                + configuration.items()
-            )
-
             configuration['config_paths'] = configuration_file
 
             for key in configuration:

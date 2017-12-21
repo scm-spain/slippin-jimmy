@@ -9,7 +9,6 @@ from openpyxl import Workbook
 
 from .cli.interactive.cluster_id import ClusterId
 from .cli.interactive.configuration_file import ConfigurationFile
-from .cli.interactive.default_configuration import DefaultConfiguration
 from .cli.interactive.properties_file import PropertiesFile
 from .cli.objects.wf_configuration_object import WfConfigurationObject
 from .cli.scripts.tables_configuration.tables_configuration import TablesConfiguration
@@ -44,7 +43,6 @@ class DIModule(Module):
         binder.bind('hdfs', to=HDFSFilesystem)
         binder.bind('interactive_cluster_id', to=ClusterId, scope=singleton)
         binder.bind('interactive_configuration_file', to=ConfigurationFile, scope=singleton)
-        binder.bind('interactive_default_configuration', to=DefaultConfiguration)
         binder.bind('interactive_properties_file', to=PropertiesFile)
         binder.bind('job_flow', to=RunJobFlow)
         binder.bind('job_flow_configuration', to=JobFlowConfigurationParser)

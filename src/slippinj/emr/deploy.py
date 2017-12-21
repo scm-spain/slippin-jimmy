@@ -2,7 +2,6 @@ from injector import inject
 
 import os.path
 
-
 class EmrDeploy(object):
     """Execute all the deploy process inside an EMR cluster"""
 
@@ -28,18 +27,18 @@ class EmrDeploy(object):
         :param cluster_id: string
         :return: string
         """
-        remote_properties_path = os.path.join(self._base_remote_dir, os.path.basename(properties_file))
-
-        self.__emr_cluster.open_sftp(cluster_id).put(properties_file, remote_properties_path)
+        remote_properties_path = properties_file
+        if cluster_id:
+            remote_properties_path = os.path.join(self._base_remote_dir, os.path.basename(properties_file))
+            self.__emr_cluster.open_sftp(cluster_id).put(properties_file, remote_properties_path)
 
         job_id = self.__emr_cluster.exec_command('oozie job -run -config ' + remote_properties_path, cluster_id,
                                                  stop_on_error=True)
-
         self.__emr_cluster.exec_command('rm ' + remote_properties_path, cluster_id)
 
         return job_id
 
-    def upload_code(self, wf_folder, cluster_id, hdfs_deploy_folder, workflow_name=None):
+    def upload_code(self, wf_folder, cluster_id, hdfs_deploy_folder, workflow_name):
         """
         Upload given workflow code to HDFS connecting to given cluster
         :param wf_folder: string
@@ -48,25 +47,32 @@ class EmrDeploy(object):
         :param workflow_name: string
         :return: boolean
         """
-        basename = wf_folder.strip(os.sep).split(os.sep)[-1] if not workflow_name else workflow_name
 
-        tar_file = self.__filesystem.generate_tar_file(wf_folder, basename)
+        if cluster_id:
+            tar_file = self.__filesystem.generate_tar_file(wf_folder, workflow_name)
 
-        remote_file = os.path.join(self._base_remote_dir, basename + '.tar.gz')
+            remote_file = os.path.join(self._base_remote_dir, workflow_name + '.tar.gz')
 
-        sftp_client = self.__emr_cluster.open_sftp(cluster_id)
-        self.__emr_cluster.exec_command('rm -Rf ' + self._base_remote_dir, cluster_id)
+            self.__emr_cluster.exec_command('rm -Rf ' + self._base_remote_dir, cluster_id)
 
-        try:
-            sftp_client.mkdir(self._base_remote_dir)
-            sftp_client.put(tar_file, remote_file)
-        except IOError:
-            return False
+            sftp_client = self.__emr_cluster.open_sftp(cluster_id)
 
-        self.__emr_cluster.exec_command('tar --directory ' + self._base_remote_dir + ' -zxf ' + remote_file, cluster_id)
+            try:
+                sftp_client.mkdir(self._base_remote_dir)
+                sftp_client.put(tar_file, remote_file)
+            except IOError:
+                return False
+
+            self.__emr_cluster.exec_command('tar --directory ' + self._base_remote_dir + ' -zxf ' + remote_file, cluster_id)
 
         self.__hdfs.rmdir(hdfs_deploy_folder, cluster_id)
         self.__hdfs.mkdir(hdfs_deploy_folder, cluster_id)
-        self.__hdfs.put(os.path.join(self._base_remote_dir, basename, '*'), hdfs_deploy_folder, cluster_id)
+
+        source_path = os.path.join(wf_folder, '*')
+
+        if cluster_id:
+            source_path = os.path.join(self._base_remote_dir, workflow_name, '*')
+
+        self.__hdfs.put(source_path, hdfs_deploy_folder, cluster_id)
 
         return True
