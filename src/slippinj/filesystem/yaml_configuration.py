@@ -54,7 +54,10 @@ class YamlConfiguration(object):
         :param root_dir: string
         :return: list
         """
-        return glob.glob(os.path.join(root_dir, '*.yml')) + glob.glob(os.path.join(root_dir, '**', '*.yml'))
+        if os.path.isdir(root_dir):
+            return glob.glob(os.path.join(root_dir, '*.yml')) + glob.glob(os.path.join(root_dir, '**', '*.yml'))
+        else:
+            return [root_dir]
 
 
 class WorkflowsYamlConfigurationWriter(object):
