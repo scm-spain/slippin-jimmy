@@ -15,7 +15,7 @@ class TestTlacuilo:
 
         Tlacuilo(mocked_args_parser).configure()
 
-        assert 7 == mocked_args_parser.add_argument.call_count
+        assert 6 == mocked_args_parser.add_argument.call_count
 
     def test_script_raise_an_error_when_path_is_not_absolute(self):
         mocked_args = Mock()

@@ -36,11 +36,6 @@ class Tlacuilo(BasicScript):
                 'action': 'append'
             },
             {
-                'short': '-f',
-                'long': '--configuration-file',
-                'help': 'File where all the configuration is stored'
-            },
-            {
                 'short': '-i',
                 'long': '--cluster-information',
                 'action': 'store_true',
