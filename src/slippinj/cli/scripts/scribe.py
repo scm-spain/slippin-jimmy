@@ -104,9 +104,9 @@ class Scribe(BasicScript):
         logger.info('Getting tables information')
         tables_information = db.get_all_tables_info(args.table_list, args.where, args.max_records)
 
-        logger.info('Writing tables information into excel file')
+        logger.info('Writing tables information into excel file to "{}".'.format(args.output))
         injector.get('excel_writer').generate_excel_file(tables_information['tables'], args.db_name, args.output)
 
         if not args.excel_only:
-            logger.info('Writing tables information into config files')
+            logger.info('Writing tables information into config files to "{}".'.format(args.output))
             injector.get('yaml_configuration_writer').generate_yaml_files(injector, tables_information, args.output)
