@@ -12,10 +12,10 @@ class BasicScript(object):
         Get the arguments to configure current script, should be implementd in children classes
         :return: list
         """
-        raise StandardError('Implement get_arguments method')
+        raise NotImplementedError('Implement get_arguments method')
 
     def run(self, args, injector):
-        raise StandardError('Implement run method')
+        raise NotImplementedError('Implement run method')
 
     def configure(self):
         """
